@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ETI Tecnologies — Futuro é Agora</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --neon: #00ffcc;
+  --neon2: #00aaff;
+  --neon3: #ff0077;
+  --dark: #010912;
+  --darker: #00060d;
+  --glass: rgba(0,255,204,0.04);
+  --border: rgba(0,255,204,0.15);
+  --text: #c8e8ff;
+  --muted: #4a7a99;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--darker);
+  color: var(--text);
+  font-family: 'Rajdhani', sans-serif;
+  overflow-x: hidden;
+  cursor: auto;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--neon);
+  outline-offset: 3px;
+}
+
+.cursor, .cursor-ring { display: none; }
+
+@media (pointer: fine) and (hover: hover) {
+  body { cursor: none; }
+  .cursor, .cursor-ring { display: block; }
+}
+
+/* CUSTOM CURSOR */
+.cursor {
+  position: fixed; width: 12px; height: 12px;
+  background: var(--neon); border-radius: 50%;
+  pointer-events: none; z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s, width 0.2s, height 0.2s, opacity 0.2s;
+  mix-blend-mode: screen;
+}
+.cursor-ring {
+  position: fixed; width: 36px; height: 36px;
+  border: 1px solid var(--neon); border-radius: 50%;
+  pointer-events: none; z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s ease-out, width 0.3s, height 0.3s;
+  opacity: 0.5;
+}
+
+/* CANVAS BG */
+#bg-canvas {
+  position: fixed; top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0; pointer-events: none;
+  opacity: 0.4;
+}
+
+/* SCANLINES */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent, transparent 2px,
+    rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px
+  );
+  pointer-events: none; z-index: 1; animation: scanMove 8s linear infinite;
+}
+@keyframes scanMove { from { background-position: 0 0; } to { background-position: 0 100px; } }
+
+/* NOISE TEXTURE */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 1; opacity: 0.3;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; width: 100%; z-index: 100;
+  padding: 20px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: all 0.4s;
+}
+nav.scrolled {
+  background: rgba(1,9,18,0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 48px;
+}
+.nav-logo { height: 44px; object-fit: contain; filter: drop-shadow(0 0 8px var(--neon)); }
+.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links a {
+  font-family: 'Orbitron', monospace; font-size: 10px; font-weight: 600;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
+  text-decoration: none; transition: all 0.3s; position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 1px; background: var(--neon);
+  transition: width 0.3s;
+}
+.nav-links a:hover { color: var(--neon); }
+.nav-links a:hover::after { width: 100%; }
+.nav-cta {
+  font-family: 'Orbitron', monospace; font-size: 10px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--dark); background: var(--neon);
+  border: none; padding: 10px 24px; cursor: pointer;
+  clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+  transition: all 0.3s; text-decoration: none;
+  box-shadow: 0 0 20px rgba(0,255,204,0.3);
+}
+.nav-cta:hover { box-shadow: 0 0 40px rgba(0,255,204,0.6); transform: translateY(-1px); }
+
+.ham { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+.ham span { width: 24px; height: 2px; background: var(--neon); transition: all 0.3s; }
+
+/* HERO */
+#home {
+  position: relative; min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 2; overflow: hidden;
+  padding: 0 48px;
+}
+
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,255,204,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,204,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
+}
+
+.hero-inner {
+  text-align: center; max-width: 900px; position: relative;
+}
+
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: 'Share Tech Mono', monospace; font-size: 11px;
+  color: var(--neon); letter-spacing: 0.3em; margin-bottom: 32px;
+  padding: 8px 20px; border: 1px solid var(--border);
+  background: rgba(0,255,204,0.05);
+}
+.hero-tag::before { content: ''; width: 6px; height: 6px; background: var(--neon); border-radius: 50%; animation: blink 1.5s infinite; }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+.hero-h1 {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(42px, 8vw, 100px);
+  font-weight: 900; line-height: 0.9;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.hero-h1 .line1 { display: block; color: white; letter-spacing: -0.02em; }
+.hero-h1 .line2 {
+  display: block;
+  background: linear-gradient(90deg, var(--neon), var(--neon2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 30px rgba(0,255,204,0.4));
+  letter-spacing: -0.02em;
+}
+.hero-h1 .line3 {
+  display: block; color: transparent;
+  -webkit-text-stroke: 1px rgba(255,255,255,0.15);
+  letter-spacing: 0.05em; font-size: 0.7em;
+}
+
+.hero-sub {
+  font-size: 16px; color: var(--muted); max-width: 520px;
+  margin: 0 auto 48px; line-height: 1.7; font-weight: 400;
+}
+
+.hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+.btn-primary {
+  font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--dark); background: var(--neon);
+  border: none; padding: 16px 36px; cursor: pointer;
+  clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+  text-decoration: none; display: inline-block;
+  box-shadow: 0 0 30px rgba(0,255,204,0.3), inset 0 1px 0 rgba(255,255,255,0.2);
+  transition: all 0.3s;
+}
+.btn-primary:hover { box-shadow: 0 0 60px rgba(0,255,204,0.6); transform: translateY(-2px); }
+
+.btn-secondary {
+  font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 600;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--neon); background: transparent;
+  border: 1px solid var(--border); padding: 16px 36px; cursor: pointer;
+  clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+  text-decoration: none; display: inline-block;
+  transition: all 0.3s;
+}
+.btn-secondary:hover { border-color: var(--neon); background: rgba(0,255,204,0.05); transform: translateY(-2px); }
+
+.hero-stats {
+  display: flex; gap: 48px; justify-content: center; margin-top: 72px;
+  padding-top: 48px; border-top: 1px solid var(--border);
+}
+.stat { text-align: center; }
+.stat-num {
+  font-family: 'Orbitron', monospace; font-size: 32px; font-weight: 900;
+  color: var(--neon); display: block;
+  text-shadow: 0 0 20px rgba(0,255,204,0.5);
+}
+.stat-label { font-size: 11px; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; }
+
+/* SECTIONS */
+section { position: relative; z-index: 2; }
+
+.section-wrap { max-width: 1200px; margin: 0 auto; padding: 120px 48px; }
+
+.section-tag {
+  font-family: 'Share Tech Mono', monospace; font-size: 11px;
+  color: var(--neon); letter-spacing: 0.3em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+}
+.section-tag::before { content: '//'; opacity: 0.5; }
+
+.section-title {
+  font-family: 'Orbitron', monospace; font-size: clamp(28px, 4vw, 48px);
+  font-weight: 900; text-transform: uppercase; line-height: 1.1;
+  color: white; margin-bottom: 16px;
+}
+.section-title span {
+  background: linear-gradient(90deg, var(--neon), var(--neon2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.section-sub { font-size: 16px; color: var(--muted); max-width: 480px; line-height: 1.7; }
+
+/* CARD */
+.card {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  position: relative; overflow: hidden;
+  transition: all 0.4s;
+  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+}
+.card::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--neon), transparent);
+  opacity: 0; transition: opacity 0.4s;
+}
+.card:hover { border-color: rgba(0,255,204,0.35); background: rgba(0,255,204,0.07); transform: translateY(-4px); }
+.card:hover::before { opacity: 1; }
+.card-corner {
+  position: absolute; top: 0; right: 0;
+  width: 0; height: 0;
+  border-style: solid;
+  border-width: 0 20px 20px 0;
+  border-color: transparent var(--neon) transparent transparent;
+  opacity: 0.3;
+}
+
+/* ICON */
+.icon-box {
+  width: 56px; height: 56px;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 24px; position: relative;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  background: rgba(0,255,204,0.05);
+}
+.icon-box svg { width: 24px; height: 24px; stroke: var(--neon); fill: none; stroke-width: 1.5; }
+
+/* ABOUT */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-bottom: 80px; }
+.about-vis {
+  position: relative; aspect-ratio: 1;
+  border: 1px solid var(--border);
+  clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 30px 100%, 0 calc(100% - 30px));
+  background: var(--glass);
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.about-vis canvas { position: absolute; inset: 0; }
+.about-vis-inner {
+  position: relative; z-index: 2;
+  text-align: center;
+}
+.about-vis-num {
+  font-family: 'Orbitron', monospace; font-size: 72px; font-weight: 900;
+  color: var(--neon); display: block; line-height: 1;
+  text-shadow: 0 0 40px rgba(0,255,204,0.4);
+}
+.about-vis-label { font-size: 12px; color: var(--muted); letter-spacing: 0.2em; text-transform: uppercase; }
+
+.mvv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.mvv-card { padding: 36px; }
+.mvv-icon { font-size: 32px; margin-bottom: 20px; display: block; }
+.mvv-title { font-family: 'Orbitron', monospace; font-size: 14px; font-weight: 700; color: white; margin-bottom: 12px; letter-spacing: 0.1em; }
+.mvv-text { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+/* SOLAR INFO */
+.solar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.solar-card { padding: 36px; }
+.solar-card-title { font-family: 'Orbitron', monospace; font-size: 14px; font-weight: 700; color: white; margin-bottom: 20px; letter-spacing: 0.05em; }
+.benefit-item { display: flex; gap: 12px; margin-bottom: 16px; font-size: 14px; }
+.benefit-item strong { color: white; }
+.check { color: var(--neon); flex-shrink: 0; margin-top: 2px; font-family: monospace; }
+
+.step { display: flex; gap: 16px; margin-bottom: 24px; }
+.step-num {
+  width: 36px; height: 36px; background: var(--neon); color: var(--dark);
+  font-family: 'Orbitron', monospace; font-size: 10px; font-weight: 900;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+}
+.step-title { font-weight: 600; color: white; font-size: 14px; margin-bottom: 4px; }
+.step-text { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+/* SERVICES */
+.services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.service-card { padding: 40px; }
+.service-card.wide { grid-column: span 2; }
+.service-title { font-family: 'Orbitron', monospace; font-size: 15px; font-weight: 700; color: white; margin-bottom: 12px; letter-spacing: 0.05em; }
+.service-text { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+/* PILLARS */
+.pillars-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.pillar-card { padding: 48px 36px; text-align: center; }
+.pillar-title { font-family: 'Orbitron', monospace; font-size: 13px; font-weight: 700; color: white; margin-bottom: 12px; letter-spacing: 0.1em; }
+.pillar-text { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+/* SIMULATOR */
+.sim-wrap {
+  background: var(--glass); border: 1px solid var(--border);
+  padding: 64px; position: relative; overflow: hidden;
+  clip-path: polygon(0 0, calc(100% - 40px) 0, 100% 40px, 100% 100%, 40px 100%, 0 calc(100% - 40px));
+}
+.sim-wrap::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--neon), transparent);
+}
+.sim-title {
+  font-family: 'Orbitron', monospace; font-size: clamp(24px, 4vw, 40px);
+  font-weight: 900; text-transform: uppercase; color: white; margin-bottom: 8px;
+}
+.sim-title span { color: var(--neon); }
+.sim-sub { font-size: 14px; color: var(--muted); margin-bottom: 48px; }
+
+.sim-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px; }
+.input-group label {
+  display: block; font-family: 'Share Tech Mono', monospace; font-size: 10px;
+  color: var(--neon); letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 10px;
+}
+.input-group select, .input-group input {
+  width: 100%; background: rgba(0,255,204,0.03); border: 1px solid var(--border);
+  color: white; padding: 16px 20px; font-family: 'Rajdhani', sans-serif; font-size: 16px;
+  outline: none; transition: border-color 0.3s; appearance: none;
+  clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+}
+.input-group select:focus, .input-group input:focus { border-color: var(--neon); }
+.input-group input::placeholder { color: var(--muted); }
+
+.calc-btn {
+  width: 100%; padding: 20px;
+  font-family: 'Orbitron', monospace; font-size: 13px; font-weight: 900;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--dark); background: var(--neon); border: none; cursor: pointer;
+  clip-path: polygon(16px 0, 100% 0, calc(100% - 16px) 100%, 0 100%);
+  box-shadow: 0 0 30px rgba(0,255,204,0.3);
+  transition: all 0.3s; margin-bottom: 48px;
+}
+.calc-btn:hover { box-shadow: 0 0 60px rgba(0,255,204,0.5); transform: translateY(-2px); }
+
+.results { display: none; }
+.results.show { display: block; animation: fadeUp 0.6s ease-out; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+.results-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+.result-card {
+  background: rgba(0,255,204,0.03); border: 1px solid var(--border);
+  padding: 24px; text-align: center;
+  clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+}
+.result-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 12px; display: block; }
+.result-val { font-family: 'Orbitron', monospace; font-size: 28px; font-weight: 900; color: var(--neon); }
+.result-val.accent { color: #00ff88; }
+
+.result-summary {
+  background: rgba(0,255,204,0.04); border: 1px solid var(--border);
+  padding: 36px;
+  clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
+}
+.summary-title { font-family: 'Orbitron', monospace; font-size: 14px; font-weight: 700; color: white; margin-bottom: 24px; letter-spacing: 0.1em; }
+.summary-item { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; font-size: 15px; }
+.summary-item .check { font-size: 12px; }
+.summary-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border);
+  flex-wrap: wrap; gap: 16px;
+}
+.wa-btn {
+  font-family: 'Orbitron', monospace; font-size: 10px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--dark); background: #25D366;
+  padding: 14px 28px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px;
+  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  box-shadow: 0 0 20px rgba(37,211,102,0.3); transition: all 0.3s; cursor: pointer;
+}
+.wa-btn:hover { box-shadow: 0 0 40px rgba(37,211,102,0.5); transform: translateY(-2px); }
+
+/* PLANS */
+.plans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: center; }
+.plan-card { padding: 48px 36px; }
+.plan-card.featured {
+  border-color: rgba(0,255,204,0.4);
+  background: rgba(0,255,204,0.06);
+  transform: scale(1.04);
+}
+.plan-badge {
+  display: inline-block; background: var(--neon); color: var(--dark);
+  font-family: 'Orbitron', monospace; font-size: 8px; font-weight: 900;
+  letter-spacing: 0.2em; padding: 4px 14px; margin-bottom: 16px;
+  clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+}
+.plan-name { font-family: 'Orbitron', monospace; font-size: 16px; font-weight: 700; color: white; margin-bottom: 24px; letter-spacing: 0.05em; }
+.plan-price { font-family: 'Orbitron', monospace; font-size: 42px; font-weight: 900; color: white; line-height: 1; margin-bottom: 4px; }
+.plan-price span { font-size: 16px; color: var(--muted); font-family: 'Rajdhani', sans-serif; font-weight: 400; }
+.plan-per { font-size: 13px; color: var(--muted); margin-bottom: 36px; }
+.plan-features { list-style: none; margin-bottom: 36px; }
+.plan-features li { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 14px; color: var(--text); }
+.plan-features li .check { color: var(--neon); font-size: 12px; }
+.plan-btn {
+  display: block; width: 100%; padding: 14px;
+  font-family: 'Orbitron', monospace; font-size: 10px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none;
+  text-align: center; border: 1px solid var(--border); color: var(--text);
+  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  transition: all 0.3s; cursor: pointer;
+}
+.plan-btn.primary { background: var(--neon); color: var(--dark); border-color: var(--neon); box-shadow: 0 0 20px rgba(0,255,204,0.3); }
+.plan-btn:hover { border-color: var(--neon); background: rgba(0,255,204,0.1); color: var(--neon); }
+.plan-btn.primary:hover { box-shadow: 0 0 40px rgba(0,255,204,0.5); transform: translateY(-2px); }
+
+/* FOOTER */
+footer {
+  position: relative; z-index: 2;
+  border-top: 1px solid var(--border);
+  background: rgba(0,6,13,0.95);
+  padding: 80px 48px 40px;
+}
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 64px; max-width: 1200px; margin: 0 auto 64px; }
+.footer-logo { height: 60px; object-fit: contain; filter: drop-shadow(0 0 8px var(--neon)); margin-bottom: 20px; }
+.footer-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
+.footer-col h4 { font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 700; color: var(--neon); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 24px; }
+.footer-col ul { list-style: none; }
+.footer-col ul li { font-size: 14px; color: var(--muted); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+.footer-col ul li svg { width: 14px; height: 14px; stroke: var(--neon); fill: none; stroke-width: 2; }
+.social-links { display: flex; gap: 12px; }
+.social-link {
+  width: 44px; height: 44px; border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--muted); text-decoration: none; transition: all 0.3s;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+}
+.social-link svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+.social-link:hover { border-color: var(--neon); color: var(--neon); background: rgba(0,255,204,0.05); }
+.footer-bottom {
+  max-width: 1200px; margin: 0 auto;
+  padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.04);
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--muted);
+  letter-spacing: 0.1em;
+}
+
+/* WA FLOAT */
+.wa-float {
+  position: fixed; bottom: 32px; right: 32px; z-index: 200;
+  background: #25D366; color: white; border: none;
+  padding: 14px 24px; font-family: 'Orbitron', monospace; font-size: 10px;
+  font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+  text-decoration: none; display: flex; align-items: center; gap: 10px;
+  clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+  box-shadow: 0 0 30px rgba(37,211,102,0.4); transition: all 0.3s; cursor: pointer;
+  animation: floatPulse 3s ease-in-out infinite;
+}
+@keyframes floatPulse { 0%,100% { box-shadow: 0 0 30px rgba(37,211,102,0.4); } 50% { box-shadow: 0 0 50px rgba(37,211,102,0.7); } }
+.wa-float:hover { transform: translateY(-3px) scale(1.02); }
+.wa-float svg { width: 18px; height: 18px; fill: white; }
+
+/* MOBILE DRAWER */
+.drawer-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 150;
+}
+.drawer {
+  position: fixed; top: 0; left: 0; height: 100%; width: 280px;
+  background: #00080f; border-right: 1px solid var(--border);
+  z-index: 160; transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+  padding: 32px 24px; display: flex; flex-direction: column; gap: 0;
+}
+.drawer.open { transform: translateX(0); }
+.drawer-overlay.open { display: block; }
+.drawer-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 48px; }
+.drawer-logo { height: 36px; object-fit: contain; filter: drop-shadow(0 0 6px var(--neon)); }
+.drawer-close { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 20px; }
+.drawer-nav { display: flex; flex-direction: column; gap: 8px; }
+.drawer-nav a {
+  font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 600;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none; padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  transition: color 0.3s; display: flex; justify-content: space-between; align-items: center;
+}
+.drawer-nav a:hover { color: var(--neon); }
+.drawer-footer { margin-top: auto; padding-top: 32px; border-top: 1px solid var(--border); }
+.drawer-footer a {
+  display: block; width: 100%; padding: 14px;
+  font-family: 'Orbitron', monospace; font-size: 10px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase; text-align: center;
+  color: var(--dark); background: var(--neon); text-decoration: none;
+  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  box-shadow: 0 0 20px rgba(0,255,204,0.3);
+}
+
+/* Animations */
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* Glitch effect on title */
+@keyframes glitch {
+  0%,100% { clip-path: none; transform: none; }
+  92% { clip-path: none; transform: none; }
+  93% { clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%); transform: translateX(-4px); }
+  94% { clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%); transform: translateX(4px); }
+  95% { clip-path: none; transform: none; }
+}
+.hero-h1 { animation: glitch 8s infinite; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .nav-links, .nav-cta { display: none; }
+  .ham { display: flex; }
+  nav { padding: 20px 24px; }
+  #home { padding: 0 24px; }
+  .section-wrap { padding: 80px 24px; }
+  .about-grid, .mvv-grid, .solar-grid, .services-grid, .plans-grid, .pillars-grid { grid-template-columns: 1fr; }
+  .service-card.wide { grid-column: span 1; }
+  .sim-wrap { padding: 36px 24px; }
+  .sim-inputs { grid-template-columns: 1fr; }
+  .results-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero-stats { gap: 24px; flex-wrap: wrap; }
+  .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+  .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+  .plan-card.featured { transform: none; }
+  footer { padding: 60px 24px 32px; }
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance:none; width:18px; height:18px;
+  background:var(--neon); border-radius:50%;
+  cursor:pointer; box-shadow:0 0 10px rgba(0,255,204,0.6);
+}
+input[type=range]::-moz-range-thumb {
+  width:18px; height:18px; background:var(--neon);
+  border:none; border-radius:50%; cursor:pointer;
+  box-shadow:0 0 10px rgba(0,255,204,0.6);
+}
+.adj-tab {
+  font-family:'Orbitron',monospace; font-size:9px; font-weight:700;
+  letter-spacing:0.12em; text-transform:uppercase;
+  padding:8px 16px; border:1px solid var(--border);
+  background:transparent; color:var(--muted); cursor:pointer;
+  clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);
+  transition:all 0.25s;
+}
+.adj-tab:hover { border-color:var(--neon); color:var(--neon); }
+.adj-tab-active { background:rgba(0,255,204,0.1); border-color:var(--neon); color:var(--neon); }
+.preset-btn {
+  font-family:'Orbitron',monospace; font-size:9px; font-weight:700;
+  letter-spacing:0.08em; text-transform:uppercase; text-align:center;
+  padding:10px 14px; border:1px solid var(--border);
+  background:rgba(0,255,204,0.03); color:var(--muted); cursor:pointer;
+  clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);
+  transition:all 0.25s; line-height:1.6;
+}
+.preset-btn span { color:var(--neon); font-size:11px; }
+.preset-btn:hover { border-color:var(--neon); background:rgba(0,255,204,0.08); color:white; }
+.perfil-btn {
+  padding:20px 16px; border:1px solid var(--border);
+  background:rgba(0,255,204,0.03); color:var(--text); cursor:pointer;
+  text-align:center; font-size:13px; line-height:1.6;
+  clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);
+  transition:all 0.3s;
+}
+.perfil-btn:hover { border-color:var(--neon); background:rgba(0,255,204,0.08); transform:translateY(-2px); }
+.perfil-btn strong { font-family:'Orbitron',monospace; font-size:11px; display:block; margin-bottom:4px; color:white; }
+.perfil-btn span { font-size:12px; color:var(--muted); display:block; }
+.perfil-btn.perfil-active { border-color:rgba(0,255,204,0.6); background:rgba(0,255,204,0.10); }
+.bandeira-btn {
+  padding:20px 16px; border:1px solid var(--border);
+  background:rgba(0,255,204,0.03); color:var(--text); cursor:pointer;
+  text-align:center; font-size:13px; line-height:1.8;
+  clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);
+  transition:all 0.3s;
+}
+.bandeira-btn:hover { border-color:rgba(255,255,255,0.3); background:rgba(255,255,255,0.05); }
+.bandeira-btn.active-band { border-color:rgba(255,221,0,0.5); background:rgba(255,221,0,0.06); }
+.aparelho-item {
+  display:flex; align-items:center; gap:10px;
+  padding:12px; border:1px solid var(--border);
+  background:rgba(0,255,204,0.02);
+  clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);
+}
+.aparelho-item label { flex:1; font-size:13px; color:var(--text); }
+.aparelho-item input {
+  width:56px; background:rgba(0,255,204,0.05); border:1px solid var(--border);
+  color:var(--neon); padding:6px 8px; font-family:'Orbitron',monospace;
+  font-size:13px; font-weight:700; text-align:center; outline:none;
+  clip-path:polygon(4px 0,100% 0,calc(100% - 4px) 100%,0 100%);
+}
+.aparelho-item .ap-watts { font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--muted); min-width:60px; text-align:right; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  body::after { animation: none; }
+  .hero-h1 { animation: none; }
+  .wa-float { animation: none; }
+  .reveal { transition: none; transform: none; opacity: 1; }
+  #bg-canvas { display: none; }
+  #orbit-canvas { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<canvas id="bg-canvas"></canvas>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#home"><img class="nav-logo" src="assets/logo.png" alt="ETI Logo"></a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#quem-somos">Sobre</a></li>
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#solar">Energia Solar</a></li>
+    <li><a href="#protect">Planos</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+  <a href="https://wa.me/5589981451993" class="nav-cta">Orçamento</a>
+  <button class="ham" id="ham-btn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- DRAWER -->
+<div class="drawer-overlay" id="overlay"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <img class="drawer-logo" src="assets/logo.png" alt="ETI Logo">
+    <button class="drawer-close" id="drawer-close">✕</button>
+  </div>
+  <nav class="drawer-nav">
+    <a href="#home">Home <span>→</span></a>
+    <a href="#quem-somos">Sobre <span>→</span></a>
+    <a href="#servicos">Serviços <span>→</span></a>
+    <a href="#solar">Energia Solar <span>→</span></a>
+    <a href="#protect">Planos <span>→</span></a>
+    <a href="#contato">Contato <span>→</span></a>
+  </nav>
+  <div class="drawer-footer">
+    <a href="https://wa.me/5589981451993">Solicitar Orçamento</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-tag">Sistema Online · Pedro Afonso — TO</div>
+    <h1 class="hero-h1">
+      <span class="line1">Sua vida</span>
+      <span class="line2">Segura</span>
+      <span class="line3">& Inteligente</span>
+    </h1>
+    <p class="hero-sub">Especialistas em Energia Solar, Segurança Eletrônica e Infraestrutura de Redes em todo o Tocantins.</p>
+    <div class="hero-btns">
+      <a href="#solar" class="btn-primary">⚡ Simular Solar</a>
+      <a href="#protect" class="btn-secondary">↗ Ver Planos</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num" data-target="12">0</span><span class="stat-label">Anos de mercado</span></div>
+      <div class="stat"><span class="stat-num" data-target="95">0</span><span class="stat-label">% Economia máx.</span></div>
+      <div class="stat"><span class="stat-num" data-target="500">0</span><span class="stat-label">Projetos entregues</span></div>
+      <div class="stat"><span class="stat-num" data-target="24">0</span><span class="stat-label">h Suporte</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="quem-somos">
+  <div class="section-wrap">
+    <div class="about-grid reveal">
+      <div>
+        <div class="section-tag">Quem Somos</div>
+        <h2 class="section-title">Inovação com <span>Propósito</span></h2>
+        <p class="section-sub" style="margin-bottom:24px">A ETI Tecnologies nasceu para atender uma demanda crescente por soluções tecnológicas de alto padrão. Com mais de 12 anos de experiência, consolidamos nossa marca como referência em confiança, qualidade e inovação.</p>
+        <p class="section-sub">Mais do que fornecer equipamentos, entregamos tranquilidade para famílias e desempenho estratégico para empresas.</p>
+      </div>
+      <div class="about-vis">
+        <canvas id="orbit-canvas"></canvas>
+        <div class="about-vis-inner">
+          <span class="about-vis-num">12+</span>
+          <span class="about-vis-label">Anos de Excelência</span>
+        </div>
+      </div>
+    </div>
+    <div class="mvv-grid reveal">
+      <div class="card mvv-card">
+        <div class="card-corner"></div>
+        <span class="mvv-icon">🎯</span>
+        <div class="mvv-title">// Missão</div>
+        <p class="mvv-text">Prover soluções tecnológicas inovadoras e sustentáveis que garantam segurança e economia real.</p>
+      </div>
+      <div class="card mvv-card">
+        <div class="card-corner"></div>
+        <span class="mvv-icon">👁️</span>
+        <div class="mvv-title">// Visão</div>
+        <p class="mvv-text">Ser a principal referência em tecnologia e segurança no Tocantins até 2028.</p>
+      </div>
+      <div class="card mvv-card">
+        <div class="card-corner"></div>
+        <span class="mvv-icon">💎</span>
+        <div class="mvv-title">// Valores</div>
+        <p class="mvv-text">Integridade, inovação constante, sustentabilidade e foco total no resultado do cliente.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLAR INFO -->
+<section id="solar-info" style="background: rgba(0,255,204,0.01); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="section-wrap">
+    <div class="text-center reveal" style="text-align:center; margin-bottom:64px;">
+      <div class="section-tag" style="justify-content:center">Energia Solar</div>
+      <h2 class="section-title">A Revolução <span>Fotovoltaica</span></h2>
+    </div>
+    <div class="solar-grid reveal">
+      <div class="card solar-card">
+        <div class="card-corner"></div>
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </div>
+        <div class="solar-card-title">Importância & Benefícios</div>
+        <div class="benefit-item"><span class="check">▶</span><span><strong>Economia Real:</strong> Redução imediata de até 95% na conta de luz.</span></div>
+        <div class="benefit-item"><span class="check">▶</span><span><strong>Valorização:</strong> Imóveis valem até 10% mais no mercado.</span></div>
+        <div class="benefit-item"><span class="check">▶</span><span><strong>Sustentabilidade:</strong> Zero emissão de poluentes na geração.</span></div>
+        <div class="benefit-item"><span class="check">▶</span><span><strong>Durabilidade:</strong> Equipamentos projetados para 25+ anos.</span></div>
+      </div>
+      <div class="card solar-card">
+        <div class="card-corner"></div>
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <div class="solar-card-title">Como Funciona?</div>
+        <div class="step">
+          <div class="step-num">01</div>
+          <div><div class="step-title">Captação Fotovoltaica</div><div class="step-text">As células de silício absorvem fótons da luz solar, gerando corrente contínua (CC).</div></div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div><div class="step-title">Conversão Inteligente</div><div class="step-text">O Inversor converte CC para corrente alternada (CA), compatível com todos os aparelhos.</div></div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div><div class="step-title">Compensação de Energia</div><div class="step-text">O excedente gera créditos na rede, usáveis em até 60 meses.</div></div>
+        </div>
+      </div>
+      <div class="card solar-card">
+        <div class="card-corner"></div>
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <div class="solar-card-title">Manutenção & Cuidado</div>
+        <p style="font-size:14px;color:var(--muted);margin-bottom:20px;line-height:1.7">Um sistema sujo pode perder até 30% de capacidade. A manutenção regular é essencial.</p>
+        <div class="benefit-item"><span class="check">▶</span><span><strong>Limpeza Periódica:</strong> Remoção de poeira que bloqueia a luz.</span></div>
+        <div class="benefit-item"><span class="check">▶</span><span><strong>Inspeção Elétrica:</strong> Verificação de conexões e oxidação.</span></div>
+        <div class="benefit-item"><span class="check">▶</span><span><strong>Monitoramento:</strong> Análise do inversor para detectar falhas.</span></div>
+        <p style="font-size:11px;color:var(--muted);margin-top:16px;font-family:'Share Tech Mono',monospace">// Recomendado: manutenção a cada 6 meses</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILLARS -->
+<section>
+  <div class="section-wrap">
+    <div style="text-align:center;margin-bottom:64px" class="reveal">
+      <div class="section-tag" style="justify-content:center">Metodologia</div>
+      <h2 class="section-title">Pilares da <span>Excelência ETI</span></h2>
+    </div>
+    <div class="pillars-grid reveal">
+      <div class="card pillar-card">
+        <div class="card-corner"></div>
+        <div class="icon-box" style="margin:0 auto 24px">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="pillar-title">Segurança Total</div>
+        <p class="pillar-text">Proteção ininterrupta com tecnologia de monitoramento de última geração.</p>
+      </div>
+      <div class="card pillar-card">
+        <div class="card-corner"></div>
+        <div class="icon-box" style="margin:0 auto 24px">
+          <svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        </div>
+        <div class="pillar-title">Economia Garantida</div>
+        <p class="pillar-text">Redução drástica de custos operacionais e faturas de energia elétrica.</p>
+      </div>
+      <div class="card pillar-card">
+        <div class="card-corner"></div>
+        <div class="icon-box" style="margin:0 auto 24px">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+        </div>
+        <div class="pillar-title">Tecnologia de Ponta</div>
+        <p class="pillar-text">Equipamentos de última geração e sistemas inteligentes integrados.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="servicos" style="background:rgba(0,255,204,0.01);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="section-wrap">
+    <div style="text-align:center;margin-bottom:64px" class="reveal">
+      <div class="section-tag" style="justify-content:center">Portfólio</div>
+      <h2 class="section-title">Soluções em <span>Tecnologia</span></h2>
+    </div>
+    <div class="services-grid reveal">
+      <div class="card service-card wide">
+        <div class="card-corner"></div>
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="service-title">Segurança Eletrônica</div>
+        <p class="service-text">Câmeras IP de alta resolução, alarmes inteligentes e monitoramento via smartphone 24h por dia, 7 dias por semana.</p>
+      </div>
+      <div class="card service-card">
+        <div class="card-corner"></div>
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </div>
+        <div class="service-title">Energia Solar</div>
+        <p class="service-text">Reduza sua conta de luz em até 95% com os melhores painéis do mercado.</p>
+      </div>
+      <div class="card service-card">
+        <div class="card-corner"></div>
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <div class="service-title">Manutenção Solar</div>
+        <p class="service-text">Limpeza e revisão técnica para o máximo de geração de energia.</p>
+      </div>
+      <div class="card service-card">
+        <div class="card-corner"></div>
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+        </div>
+        <div class="service-title">Redes & Wi-Fi</div>
+        <p class="service-text">Fibra óptica e roteadores Mesh para máxima performance.</p>
+      </div>
+      <div class="card service-card wide">
+        <div class="card-corner"></div>
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+        </div>
+        <div class="service-title">Gestão em TI</div>
+        <p class="service-text">Suporte especializado para empresas que buscam estabilidade, segurança digital e alta performance nos sistemas.</p>
+      </div>
+      <div class="card service-card">
+        <div class="card-corner"></div>
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <div class="service-title">Automação</div>
+        <p class="service-text">Portões ultra-rápidos e controle biométrico inteligente.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIMULATOR -->
+<section id="solar">
+  <div class="section-wrap">
+    <div class="sim-wrap reveal">
+      <div class="section-tag">Simulador Inteligente</div>
+      <h2 class="sim-title">Simulador Solar <span>Zera Talão</span></h2>
+      <p class="sim-sub">Tarifas atualizadas ANEEL 2025 · Calcule consumo, custo real e economia solar em segundos.</p>
+
+      <!-- STATE + BILL -->
+      <div class="sim-inputs" style="grid-template-columns:1fr 1fr 1fr">
+        <div class="input-group">
+          <label>// Seu Estado</label>
+          <select id="state-select"></select>
+        </div>
+        <div class="input-group">
+          <label>// Valor da Conta (R$)</label>
+          <input id="bill-input" type="number" placeholder="Ex: 500" min="1">
+        </div>
+        <div class="input-group">
+          <label>// Dias do Período <span style="color:var(--muted);font-size:9px">(padrão 30)</span></label>
+          <input id="dias-input" type="number" placeholder="Ex: 30" min="1" max="31" value="30">
+          <div id="dias-info" style="margin-top:8px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);display:none">
+            ⚡ <span id="dias-kwh-dia"></span> kWh/dia · <span id="dias-custo-dia"></span>/dia
+          </div>
+        </div>
+      </div>
+
+<!-- SUBCLASS SELECTOR -->
+      <div style="margin-bottom:24px">
+        <label style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--neon);letter-spacing:0.25em;text-transform:uppercase;display:block;margin-bottom:12px">// Tipo de Cliente</label>
+        <div style="display:flex;gap:10px;flex-wrap:wrap" id="subclass-btns">
+          <button id="sc-b1" class="adj-tab adj-tab-active" type="button" data-subclass="b1">🏠 Residencial Normal (B1)</button>
+          <button id="sc-br" class="adj-tab" type="button" data-subclass="br">♿ Baixa Renda (CadÚnico)</button>
+          <button id="sc-rural" class="adj-tab" type="button" data-subclass="rural">🌾 Rural (B2)</button>
+          <button id="sc-comercial" class="adj-tab" type="button" data-subclass="comercial">🏪 Comercial (B3)</button>
+        </div>
+        <div id="subclass-info" style="margin-top:10px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);padding:10px 14px;background:rgba(0,255,204,0.03);border:1px solid var(--border)"></div>
+      </div>
+
+      <!-- LIVE TARIFF INFO BOX -->
+      <div id="tariff-box" style="display:none; margin-bottom:32px; background:rgba(0,255,204,0.04); border:1px solid var(--border); padding:24px; clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px));">
+        <div style="display:flex; flex-wrap:wrap; gap:24px; align-items:center;">
+          <div>
+            <span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.2em;display:block;margin-bottom:6px">// DISTRIBUIDORA</span>
+            <span id="tb-dist" style="font-family:'Orbitron',monospace;font-size:13px;color:white;font-weight:700"></span>
+          </div>
+          <div>
+            <span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.2em;display:block;margin-bottom:6px">// TARIFA APLICADA kWh</span>
+            <span id="tb-rate" style="font-family:'Orbitron',monospace;font-size:22px;color:var(--neon);font-weight:900"></span>
+          </div>
+          <div id="tb-faixas-wrap" style="display:none">
+            <span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.2em;display:block;margin-bottom:6px">// FAIXAS PROGRESSIVAS</span>
+            <span id="tb-faixas" style="font-family:'Orbitron',monospace;font-size:11px;color:#ffaa00;font-weight:700;line-height:1.8"></span>
+          </div>
+          <div>
+            <span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.2em;display:block;margin-bottom:6px">// ICMS DO ESTADO</span>
+            <span id="tb-icms" style="font-family:'Orbitron',monospace;font-size:22px;color:var(--neon);font-weight:900"></span>
+          </div>
+          <div>
+            <span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.2em;display:block;margin-bottom:6px">// VIGÊNCIA</span>
+            <span id="tb-vigencia" style="font-family:'Orbitron',monospace;font-size:13px;color:white;font-weight:700"></span>
+          </div>
+          <div style="margin-left:auto">
+            <a id="tb-aneel" href="#" target="_blank" rel="noopener noreferrer" style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--neon);text-decoration:none;letter-spacing:0.1em;border-bottom:1px solid var(--border);padding-bottom:2px">↗ Ver na ANEEL</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONSUMPTION SLIDER -->
+      <div id="slider-block" style="display:none; margin-bottom:32px;">
+
+        <!-- SECTION HEADER -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)">
+          <span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--neon);letter-spacing:0.25em;text-transform:uppercase">// Ajuste o Consumo</span>
+          <span id="slider-kwh-label" style="font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:white"></span>
+        </div>
+
+        <!-- TABS -->
+        <div style="display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap">
+          <button id="tab-slider" class="adj-tab adj-tab-active" type="button" data-tab="slider">⚡ Slider</button>
+          <button id="tab-kwh" class="adj-tab" type="button" data-tab="kwh">📊 kWh direto</button>
+          <button id="tab-aparelhos" class="adj-tab" type="button" data-tab="aparelhos">🏠 Por aparelhos</button>
+          <button id="tab-perfil" class="adj-tab" type="button" data-tab="perfil">👤 Perfil de uso</button>
+          <button id="tab-bandeira" class="adj-tab" type="button" data-tab="bandeira">🚦 Bandeira</button>
+        </div>
+
+        <!-- TAB: SLIDER -->
+        <div id="panel-slider" class="adj-panel">
+          <input type="range" id="kwh-slider" min="50" max="2000" step="10"
+            style="width:100%;-webkit-appearance:none;height:4px;background:linear-gradient(90deg,var(--neon) var(--pct,50%),rgba(255,255,255,0.1) var(--pct,50%));outline:none;border-radius:2px;cursor:pointer;">
+          <div style="display:flex;justify-content:space-between;margin-top:8px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">
+            <span>50 kWh<br><span style="font-size:9px">Baixo</span></span>
+            <span style="text-align:center">200–400 kWh<br><span style="font-size:9px">Residencial típico</span></span>
+            <span style="text-align:right">2000 kWh<br><span style="font-size:9px">Industrial</span></span>
+          </div>
+          <!-- quick presets -->
+          <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap">
+            <button class="preset-btn" type="button" data-kwh="150">💡 Baixo<br><span>150 kWh</span></button>
+            <button class="preset-btn" type="button" data-kwh="300">🏠 Médio<br><span>300 kWh</span></button>
+            <button class="preset-btn" type="button" data-kwh="500">❄️ A/C<br><span>500 kWh</span></button>
+            <button class="preset-btn" type="button" data-kwh="800">🏪 Comércio<br><span>800 kWh</span></button>
+            <button class="preset-btn" type="button" data-kwh="1200">🏭 Indústria<br><span>1200 kWh</span></button>
+            <button class="preset-btn" type="button" data-kwh="2000">⚡ Máx<br><span>2000 kWh</span></button>
+          </div>
+        </div>
+
+        <!-- TAB: KWH DIRETO -->
+        <div id="panel-kwh" class="adj-panel" style="display:none">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div class="input-group">
+              <label>// kWh por mês</label>
+              <input id="kwh-direto" type="number" placeholder="Ex: 350" min="1" max="9999">
+            </div>
+            <div class="input-group">
+              <label>// kWh por dia</label>
+              <input id="kwh-dia-direto" type="number" placeholder="Ex: 11.6" min="0.1" step="0.1">
+            </div>
+          </div>
+          <p style="margin-top:12px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted)">// Preencha um dos campos — o outro é calculado automaticamente</p>
+        </div>
+
+        <!-- TAB: APARELHOS -->
+        <div id="panel-aparelhos" class="adj-panel" style="display:none">
+          <p style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:16px;letter-spacing:0.1em">// Informe a quantidade de cada aparelho em uso diário</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px" id="aparelhos-grid">
+            <!-- populated by JS -->
+          </div>
+          <div style="margin-top:16px;padding:16px;background:rgba(0,255,204,0.04);border:1px solid var(--border);clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%)">
+            <span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);display:block;margin-bottom:4px">// TOTAL CALCULADO PELOS APARELHOS</span>
+            <span id="ap-total-kwh" style="font-family:'Orbitron',monospace;font-size:22px;font-weight:900;color:var(--neon)">0 kWh/mês</span>
+          </div>
+        </div>
+
+        <!-- TAB: PERFIL -->
+        <div id="panel-perfil" class="adj-panel" style="display:none">
+          <p style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:16px;letter-spacing:0.1em">// Selecione o perfil que melhor descreve seu uso</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+            <button class="perfil-btn" type="button" data-perfil-kwh="120">
+              <span style="font-size:28px;display:block;margin-bottom:8px">💡</span>
+              <strong>Básico</strong><br>
+              <span>Iluminação + geladeira</span><br>
+              <span style="color:var(--neon)">~120 kWh/mês</span>
+            </button>
+            <button class="perfil-btn" type="button" data-perfil-kwh="280">
+              <span style="font-size:28px;display:block;margin-bottom:8px">🏠</span>
+              <strong>Residencial Médio</strong><br>
+              <span>Casa padrão sem A/C</span><br>
+              <span style="color:var(--neon)">~280 kWh/mês</span>
+            </button>
+            <button class="perfil-btn" type="button" data-perfil-kwh="500">
+              <span style="font-size:28px;display:block;margin-bottom:8px">❄️</span>
+              <strong>Com Ar-Condicionado</strong><br>
+              <span>1–2 splits 9.000 BTU</span><br>
+              <span style="color:var(--neon)">~500 kWh/mês</span>
+            </button>
+            <button class="perfil-btn" type="button" data-perfil-kwh="700">
+              <span style="font-size:28px;display:block;margin-bottom:8px">🏡</span>
+              <strong>Alto Consumo</strong><br>
+              <span>Casa grande / piscina</span><br>
+              <span style="color:var(--neon)">~700 kWh/mês</span>
+            </button>
+            <button class="perfil-btn" type="button" data-perfil-kwh="900">
+              <span style="font-size:28px;display:block;margin-bottom:8px">🏪</span>
+              <strong>Pequeno Comércio</strong><br>
+              <span>Loja / escritório</span><br>
+              <span style="color:var(--neon)">~900 kWh/mês</span>
+            </button>
+            <button class="perfil-btn" type="button" data-perfil-kwh="400">
+              <span style="font-size:28px;display:block;margin-bottom:8px">🌾</span>
+              <strong>Fazenda / Rural</strong><br>
+              <span>Bombeamento + iluminação</span><br>
+              <span style="color:var(--neon)">~400 kWh/mês</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- TAB: BANDEIRA -->
+        <div id="panel-bandeira" class="adj-panel" style="display:none">
+          <p style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:16px;letter-spacing:0.1em">// Selecione a bandeira tarifária vigente na sua fatura</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+            <button class="bandeira-btn" id="band-verde" type="button" data-bandeira="verde" data-valor="0" data-nome="Verde">
+              <span style="font-size:24px">🟢</span><br>
+              <strong style="color:#00ff88">Verde</strong><br>
+              <span style="font-size:12px">R$ 0,00/kWh</span><br>
+              <span style="font-size:11px;color:var(--muted)">Condições favoráveis</span>
+            </button>
+            <button class="bandeira-btn active-band" id="band-amarela" type="button" data-bandeira="amarela" data-valor="0.01885" data-nome="Amarela">
+              <span style="font-size:24px">🟡</span><br>
+              <strong style="color:#ffdd00">Amarela</strong><br>
+              <span style="font-size:12px">R$ 0,01885/kWh</span><br>
+              <span style="font-size:11px;color:var(--muted)">Atenção nos reservatórios</span>
+            </button>
+            <button class="bandeira-btn" id="band-vermelha1" type="button" data-bandeira="vermelha1" data-valor="0.04169" data-nome="Vermelha 1">
+              <span style="font-size:24px">🔴</span><br>
+              <strong style="color:#ff4444">Vermelha 1</strong><br>
+              <span style="font-size:12px">R$ 0,04169/kWh</span><br>
+              <span style="font-size:11px;color:var(--muted)">Risco de escassez</span>
+            </button>
+            <button class="bandeira-btn" id="band-vermelha2" type="button" data-bandeira="vermelha2" data-valor="0.09492" data-nome="Vermelha 2">
+              <span style="font-size:24px">🔴</span><br>
+              <strong style="color:#cc0000">Vermelha 2</strong><br>
+              <span style="font-size:12px">R$ 0,09492/kWh</span><br>
+              <span style="font-size:11px;color:var(--muted)">Escassez crítica</span>
+            </button>
+            <button class="bandeira-btn" id="band-escassez" type="button" data-bandeira="escassez" data-valor="0.14200" data-nome="Escassez Hídrica">
+              <span style="font-size:24px">⚠️</span><br>
+              <strong style="color:#ff6600">Escassez Hídrica</strong><br>
+              <span style="font-size:12px">R$ 0,14200/kWh</span><br>
+              <span style="font-size:11px;color:var(--muted)">Emergência nacional</span>
+            </button>
+          </div>
+          <div id="band-active-info" style="margin-top:16px;padding:12px 16px;background:rgba(0,255,204,0.04);border:1px solid var(--border);font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted)">
+            🚦 Bandeira atual selecionada: <span id="band-nome-ativo" style="color:var(--neon)">Amarela</span> — acréscimo de <span id="band-valor-ativo" style="color:var(--neon)">R$ 0,01885/kWh</span>
+          </div>
+        </div>
+
+        <!-- LIVE COST TABLE -->
+        <div id="cost-table" style="margin-top:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px">
+          <div style="background:rgba(0,255,204,0.03);border:1px solid var(--border);padding:20px;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);text-align:center">
+            <span style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.15em;display:block;margin-bottom:8px">CONSUMO/MÊS</span>
+            <span id="ct-kwh" style="font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:white"></span>
+            <span style="font-size:11px;color:var(--muted)"> kWh</span>
+          </div>
+          <div style="background:rgba(0,255,204,0.03);border:1px solid var(--border);padding:20px;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);text-align:center">
+            <span style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.15em;display:block;margin-bottom:8px">CUSTO/DIA</span>
+            <span id="ct-dia" style="font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:var(--neon)"></span>
+          </div>
+          <div style="background:rgba(0,255,204,0.03);border:1px solid var(--border);padding:20px;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);text-align:center">
+            <span style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.15em;display:block;margin-bottom:8px">ENERGIA PURA</span>
+            <span id="ct-energia" style="font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:var(--neon)"></span>
+          </div>
+          <div style="background:rgba(0,255,204,0.03);border:1px solid var(--border);padding:20px;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);text-align:center">
+            <span style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.15em;display:block;margin-bottom:8px">ICMS + PIS/COFINS</span>
+            <span id="ct-tributos" style="font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:#ffaa00"></span>
+          </div>
+          <div style="background:rgba(0,255,204,0.03);border:1px solid var(--border);padding:20px;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);text-align:center">
+            <span style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.15em;display:block;margin-bottom:8px">BANDEIRA</span>
+            <span id="ct-bandeira" style="font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:#ffaa00"></span>
+          </div>
+          <div style="background:rgba(255,0,80,0.06);border:1px solid rgba(255,0,80,0.2);padding:20px;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);text-align:center">
+            <span style="font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,100,100,0.8);letter-spacing:0.15em;display:block;margin-bottom:8px">TOTAL ESTIMADO</span>
+            <span id="ct-total" style="font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:#ff6464"></span>
+          </div>
+          <div style="background:rgba(0,255,136,0.06);border:1px solid rgba(0,255,136,0.2);padding:20px;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);text-align:center">
+            <span style="font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(0,255,136,0.8);letter-spacing:0.15em;display:block;margin-bottom:8px">COM SOLAR (95%)</span>
+            <span id="ct-solar" style="font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:#00ff88"></span>
+          </div>
+        </div>
+
+        <!-- BREAKDOWN BAR -->
+        <div style="margin-top:20px">
+          <div style="display:flex;justify-content:space-between;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:8px">
+            <span>Composição da Conta</span>
+            <span id="bar-pct"></span>
+          </div>
+          <div style="height:8px;background:rgba(255,255,255,0.05);border-radius:2px;overflow:hidden;display:flex">
+            <div id="bar-energia"  style="background:var(--neon);height:100%;transition:width 0.4s"></div>
+            <div id="bar-tributos" style="background:#ffaa00;height:100%;transition:width 0.4s"></div>
+            <div id="bar-bandeira" style="background:#ff6464;height:100%;transition:width 0.4s"></div>
+          </div>
+          <div style="display:flex;gap:16px;margin-top:8px;font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted)">
+            <span>■ <span style="color:var(--neon)">Energia</span></span>
+            <span>■ <span style="color:#ffaa00">Tributos</span></span>
+            <span>■ <span style="color:#ff6464">Bandeira</span></span>
+          </div>
+        </div>
+      </div>
+
+      <button class="calc-btn" id="calculate-btn">⚡ GERAR PROJETO SOLAR AGORA</button>
+
+      <div class="results" id="results">
+        <div class="results-grid">
+          <div class="result-card"><span class="result-label">Módulos 550W</span><div class="result-val" id="res-panels">0</div></div>
+          <div class="result-card"><span class="result-label">Potência Total</span><div class="result-val" id="res-watts">0W</div></div>
+          <div class="result-card"><span class="result-label">Inversor</span><div class="result-val" id="res-inverter">0kW</div></div>
+          <div class="result-card"><span class="result-label">Economia Anual</span><div class="result-val accent" id="res-savings">R$ 0</div></div>
+        </div>
+        <div class="result-summary">
+          <div class="summary-title">// Resumo do Projeto Solar</div>
+          <div class="summary-item"><span class="check">▶</span><span><strong>Meta:</strong> Zerar sua fatura (pagando apenas taxa mínima ~R$ 50).</span></div>
+          <div class="summary-item"><span class="check">▶</span><span><strong>Consumo:</strong> <span id="res-kwh">0</span> kWh/mês estimado.</span></div>
+          <div class="summary-item"><span class="check">▶</span><span><strong>Área necessária:</strong> Aprox. <span id="res-area">0</span> m² de telhado.</span></div>
+          <div class="summary-item"><span class="check">▶</span><span><strong>Payback:</strong> Investimento retorna em aprox. 3 a 4 anos.</span></div>
+          <div class="summary-item"><span class="check">▶</span><span><strong>Economia em 25 anos:</strong> <span id="res-25anos">R$ 0</span> (vida útil dos painéis).</span></div>
+          <div class="summary-footer">
+            <p style="font-size:12px;color:var(--muted);font-style:italic">Tarifas ANEEL 2025 · Bandeira amarela aplicada · Sem tributos de iluminação pública.</p>
+            <a id="whatsapp-link" href="#" target="_blank" class="wa-btn">
+              <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              Validar com Especialista
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLANS -->
+<section id="protect" style="background:rgba(0,255,204,0.01);border-top:1px solid var(--border);">
+  <div class="section-wrap">
+    <div style="text-align:center;margin-bottom:64px" class="reveal">
+      <div class="section-tag" style="justify-content:center">Planos</div>
+      <h2 class="section-title">ETI <span>Protect</span></h2>
+      <p class="section-sub" style="margin:0 auto">Manutenção preventiva e suporte prioritário para o seu negócio.</p>
+    </div>
+    <div class="plans-grid reveal">
+      <div class="card plan-card">
+        <div class="card-corner"></div>
+        <div class="plan-name">Residencial Basic</div>
+        <div class="plan-price">R$ 39<span>,90</span></div>
+        <div class="plan-per">/mês</div>
+        <ul class="plan-features">
+          <li><span class="check">▶</span> Suporte remoto ilimitado</li>
+          <li><span class="check">▶</span> Check-up preventivo anual</li>
+        </ul>
+        <a href="https://wa.me/5589981451993" class="plan-btn">Assinar Agora</a>
+      </div>
+      <div class="card plan-card featured">
+        <div class="card-corner"></div>
+        <div class="plan-badge">Mais Popular</div>
+        <div class="plan-name">Business Pro</div>
+        <div class="plan-price">R$ 349<span>,90</span></div>
+        <div class="plan-per">/mês</div>
+        <ul class="plan-features">
+          <li><span class="check">▶</span> Suporte CFTV e Redes</li>
+          <li><span class="check">▶</span> 2 Visitas técnicas inclusas</li>
+        </ul>
+        <a href="https://wa.me/5589981451993" class="plan-btn primary">Assinar Agora</a>
+      </div>
+      <div class="card plan-card">
+        <div class="card-corner"></div>
+        <div class="plan-name">Business 360</div>
+        <div class="plan-price">R$ 799<span>,90</span></div>
+        <div class="plan-per">/mês</div>
+        <ul class="plan-features">
+          <li><span class="check">▶</span> Tudo do plano Pro</li>
+          <li><span class="check">▶</span> Suporte VIP 24h</li>
+        </ul>
+        <a href="https://wa.me/5589981451993" class="plan-btn">Assinar Agora</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contato">
+  <div class="footer-grid">
+    <div>
+      <img class="footer-logo" src="assets/logo.png" alt="ETI Logo">
+      <p class="footer-desc">Referência em tecnologia e segurança eletrônica no Tocantins. Mais de 12 anos entregando excelência e inovação para famílias e empresas.</p>
+    </div>
+    <div class="footer-col">
+      <h4>// Contato</h4>
+      <ul>
+        <li><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.5 2 2 0 0 1 3.59 1.32h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.37a16 16 0 0 0 6.72 6.72l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>(89) 98145-1993 — Vendas</li>
+        <li><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>(63) 98115-0684 — Suporte</li>
+        <li><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Pedro Afonso — TO</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>// Social</h4>
+      <div class="social-links">
+        <a href="https://www.instagram.com/etitecnologies/" target="_blank" rel="noopener noreferrer" class="social-link">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="https://www.facebook.com/etitecnologies/" target="_blank" rel="noopener noreferrer" class="social-link">
+          <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© <span id="footer-year"></span> ETI TECNOLOGIES — TODOS OS DIREITOS RESERVADOS</span>
+    <span>PEDRO AFONSO — TOCANTINS — BRASIL</span>
+  </div>
+</footer>
+
+<!-- WA FLOAT -->
+<a href="https://wa.me/5589981451993" target="_blank" rel="noopener noreferrer" class="wa-float">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  Falar com Especialista
+</a>
+
+<script src="main.js" defer></script>
+</body>
+</html>
