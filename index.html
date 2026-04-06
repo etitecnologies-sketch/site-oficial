@@ -3,23 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ETI Tecnologies — Futuro é Agora</title>
+<title>ETI Tecnologies — Engenharia do Futuro</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Inter:wght@300;400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
 :root {
-  --primary: #0a2540;
-  --primary-light: #1a3a5a;
-  --secondary: #0061ff;
-  --accent: #00d1ff;
-  --success: #00d97e;
-  --dark: #010912;
-  --darker: #00060d;
-  --glass: rgba(255, 255, 255, 0.03);
+  --primary: #00ffcc;
+  --primary-glow: rgba(0, 255, 204, 0.3);
+  --secondary: #0066ff;
+  --dark: #050505;
+  --darker: #000000;
+  --surface: rgba(255, 255, 255, 0.05);
+  --surface-hover: rgba(255, 255, 255, 0.08);
   --border: rgba(255, 255, 255, 0.1);
-  --text: #f1f4f8;
-  --muted: #adbdcc;
-  --white: #ffffff;
+  --text: #ffffff;
+  --muted: #888888;
+  --glass: blur(12px);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -31,294 +30,241 @@ body {
   color: var(--text);
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
-/* REMOVED SCANLINES & NOISE FOR CLEANER LOOK */
-
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-select:focus-visible {
-  outline: 2px solid var(--secondary);
-  outline-offset: 3px;
+/* SUBTLE CIRCUIT BACKGROUND */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: 
+    radial-gradient(circle at 2px 2px, rgba(0, 255, 204, 0.05) 1px, transparent 0);
+  background-size: 32px 32px;
+  pointer-events: none; z-index: 0;
 }
 
-/* CUSTOM CURSOR - SUBTLER */
+/* CUSTOM CURSOR */
 .cursor, .cursor-ring { display: none; }
 @media (pointer: fine) and (hover: hover) {
   body { cursor: none; }
   .cursor, .cursor-ring { display: block; }
 }
 .cursor {
-  position: fixed; width: 8px; height: 8px;
-  background: var(--white); border-radius: 50%;
+  position: fixed; width: 6px; height: 6px;
+  background: var(--primary); border-radius: 50%;
   pointer-events: none; z-index: 9999;
   transform: translate(-50%, -50%);
-  mix-blend-mode: difference;
+  box-shadow: 0 0 10px var(--primary);
 }
 .cursor-ring {
-  position: fixed; width: 32px; height: 32px;
-  border: 1px solid rgba(255,255,255,0.3); border-radius: 50%;
+  position: fixed; width: 30px; height: 32px;
+  border: 1px solid var(--primary-glow); border-radius: 50%;
   pointer-events: none; z-index: 9998;
   transform: translate(-50%, -50%);
-  transition: transform 0.1s ease-out;
+  transition: width 0.2s, height 0.2s, border-color 0.2s;
 }
 
-/* CANVAS BG - MORE SUBTLE */
-#bg-canvas {
-  position: fixed; top: 0; left: 0;
-  width: 100%; height: 100%;
-  z-index: 0; pointer-events: none;
-  opacity: 0.15;
-}
-
-/* NAV - MODERN & PROFESSIONAL */
+/* NAV - FLOATING GLASS */
 nav {
-  position: fixed; top: 0; width: 100%; z-index: 100;
-  padding: 24px 64px;
+  position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+  width: calc(100% - 40px); max-width: 1200px;
+  z-index: 100; padding: 12px 32px;
   display: flex; align-items: center; justify-content: space-between;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(10, 10, 10, 0.6);
+  backdrop-filter: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  transition: all 0.4s;
 }
-nav.scrolled {
-  background: rgba(1, 9, 18, 0.85);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
-  padding: 16px 64px;
-}
-.nav-logo { height: 48px; object-fit: contain; }
-.nav-links { display: flex; gap: 40px; list-style: none; }
+nav.scrolled { top: 10px; background: rgba(0, 0, 0, 0.8); }
+
+.nav-logo { height: 32px; filter: drop-shadow(0 0 5px var(--primary-glow)); }
+.nav-links { display: flex; gap: 32px; list-style: none; }
 .nav-links a {
-  font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 600;
-  color: var(--muted); text-decoration: none; transition: all 0.3s;
-  letter-spacing: 0.05em;
+  font-size: 13px; font-weight: 500; color: var(--muted);
+  text-decoration: none; transition: 0.3s;
 }
-.nav-links a:hover { color: var(--white); }
+.nav-links a:hover { color: var(--primary); }
+
 .nav-cta {
-  font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 700;
-  color: var(--white); background: var(--secondary);
-  border: none; padding: 12px 28px; cursor: pointer;
-  border-radius: 6px;
-  transition: all 0.3s; text-decoration: none;
-  box-shadow: 0 4px 14px 0 rgba(0, 97, 255, 0.39);
+  background: var(--primary); color: var(--darker);
+  font-size: 13px; font-weight: 700; padding: 10px 24px;
+  border-radius: 50px; text-decoration: none;
+  transition: 0.3s; box-shadow: 0 0 15px var(--primary-glow);
 }
-.nav-cta:hover { background: #1a75ff; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0, 97, 255, 0.23); }
+.nav-cta:hover { transform: scale(1.05); box-shadow: 0 0 25px var(--primary-glow); }
 
-.ham { display: none; flex-direction: column; gap: 6px; cursor: pointer; }
-.ham span { width: 28px; height: 2px; background: var(--white); transition: all 0.3s; border-radius: 2px; }
-
-/* HERO - CLEAN & CORPORATE */
+/* HERO - IMPACTFUL DARK TECH */
 #home {
   position: relative; min-height: 100vh;
   display: flex; align-items: center; justify-content: center;
-  z-index: 2; overflow: hidden;
-  padding: 0 64px;
-  background: radial-gradient(circle at 50% 50%, #0a2540 0%, #00060d 100%);
+  padding: 120px 20px 60px; text-align: center;
 }
 
-.hero-grid {
-  position: absolute; inset: 0;
-  background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0);
-  background-size: 40px 40px;
-}
+#bg-canvas { position: absolute; inset: 0; z-index: 0; opacity: 0.3; }
 
-.hero-inner {
-  text-align: center; max-width: 1000px; position: relative;
-}
+.hero-inner { position: relative; z-index: 1; max-width: 900px; }
 
 .hero-tag {
-  display: inline-flex; align-items: center; gap: 12px;
-  font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700;
-  color: var(--accent); letter-spacing: 0.1em; margin-bottom: 32px;
-  padding: 10px 24px; border: 1px solid var(--border);
-  background: rgba(255,255,255,0.03); border-radius: 50px;
-  text-transform: uppercase;
+  display: inline-block; padding: 6px 16px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 50px; font-size: 11px; font-weight: 700;
+  letter-spacing: 2px; color: var(--primary);
+  text-transform: uppercase; margin-bottom: 24px;
 }
 
 .hero-h1 {
   font-family: 'Montserrat', sans-serif;
-  font-size: clamp(48px, 8vw, 92px);
-  font-weight: 900; line-height: 1.05;
-  margin-bottom: 32px; letter-spacing: -0.02em;
+  font-size: clamp(40px, 8vw, 84px);
+  font-weight: 900; line-height: 1;
+  margin-bottom: 24px; letter-spacing: -2px;
 }
-.hero-h1 .line1 { display: block; color: var(--white); }
-.hero-h1 .line2 {
+.hero-h1 span {
   display: block;
-  background: linear-gradient(135deg, var(--white) 0%, var(--muted) 100%);
+  background: linear-gradient(180deg, #fff 30%, var(--muted) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero-h1 .accent {
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 
 .hero-sub {
-  font-size: 20px; color: var(--muted); max-width: 640px;
-  margin: 0 auto 56px; line-height: 1.6; font-weight: 400;
+  font-size: 18px; color: var(--muted); max-width: 600px;
+  margin: 0 auto 40px; line-height: 1.6;
 }
 
-.hero-btns { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+.hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 
 .btn-primary {
-  font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700;
-  color: var(--white); background: var(--secondary);
-  border: none; padding: 20px 44px; cursor: pointer;
-  border-radius: 8px; text-decoration: none;
-  box-shadow: 0 4px 14px 0 rgba(0, 97, 255, 0.39);
-  transition: all 0.3s;
+  background: var(--primary); color: var(--darker);
+  font-weight: 700; padding: 16px 40px; border-radius: 12px;
+  text-decoration: none; transition: 0.3s;
 }
-.btn-primary:hover { background: #1a75ff; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 97, 255, 0.23); }
-
 .btn-secondary {
-  font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700;
-  color: var(--white); background: transparent;
-  border: 1px solid var(--border); padding: 20px 44px; cursor: pointer;
-  border-radius: 8px; text-decoration: none;
-  transition: all 0.3s;
+  background: var(--surface); color: #fff;
+  border: 1px solid var(--border);
+  font-weight: 700; padding: 16px 40px; border-radius: 12px;
+  text-decoration: none; transition: 0.3s;
+  backdrop-filter: var(--glass);
 }
-.btn-secondary:hover { background: rgba(255,255,255,0.05); border-color: var(--white); transform: translateY(-2px); }
+.btn-primary:hover, .btn-secondary:hover { transform: translateY(-3px); }
 
+/* STATS - BENTO STYLE */
 .hero-stats {
-  display: flex; gap: 64px; justify-content: center; margin-top: 88px;
-  padding-top: 56px; border-top: 1px solid var(--border);
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 20px; max-width: 800px; margin: 80px auto 0;
 }
-.stat { text-align: center; }
+.stat {
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 24px; border-radius: 20px; backdrop-filter: var(--glass);
+}
 .stat-num {
-  font-family: 'Montserrat', sans-serif; font-size: 40px; font-weight: 800;
-  color: var(--white); display: block; margin-bottom: 4px;
+  font-family: 'Montserrat', sans-serif; font-size: 36px;
+  font-weight: 900; color: var(--primary); display: block;
 }
-.stat-label { font-size: 13px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+.stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
 
-/* SECTIONS - CLEAN & SPACIOUS */
-section { position: relative; z-index: 2; }
-.section-wrap { max-width: 1200px; margin: 0 auto; padding: 140px 64px; }
+/* SECTIONS */
+section { position: relative; z-index: 1; padding: 100px 20px; }
+.section-wrap { max-width: 1200px; margin: 0 auto; }
 
 .section-tag {
-  font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700;
-  color: var(--secondary); letter-spacing: 0.1em; text-transform: uppercase;
-  margin-bottom: 20px; display: block;
+  color: var(--primary); font-size: 12px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 3px; margin-bottom: 16px; display: block;
 }
-
 .section-title {
   font-family: 'Montserrat', sans-serif; font-size: clamp(32px, 5vw, 48px);
-  font-weight: 800; line-height: 1.2;
-  color: var(--white); margin-bottom: 24px; letter-spacing: -0.01em;
+  font-weight: 900; line-height: 1.1; margin-bottom: 24px;
 }
-.section-title span { color: var(--secondary); }
-.section-sub { font-size: 18px; color: var(--muted); max-width: 560px; line-height: 1.6; }
+.section-title span { color: var(--primary); }
 
-/* CARD - PREMIUM & CLEAN */
+/* BENTO CARDS */
+.bento-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 24px; margin-top: 60px;
+}
 .card {
-  background: var(--glass);
-  border: 1px solid var(--border);
-  padding: 48px; border-radius: 16px;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 40px; border-radius: 24px; transition: 0.4s;
+  backdrop-filter: var(--glass);
 }
-.card:hover { 
-  border-color: rgba(255,255,255,0.2); 
-  background: rgba(255,255,255,0.05); 
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-}
+.card:hover { background: var(--surface-hover); border-color: var(--primary); transform: translateY(-5px); }
 
-/* ICON - SIMPLE & CLEAN */
 .icon-box {
-  width: 64px; height: 64px;
-  background: rgba(0, 97, 255, 0.1);
-  border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  margin-bottom: 32px;
+  width: 50px; height: 50px; background: var(--primary-glow);
+  border-radius: 12px; display: flex; align-items: center; justify-content: center;
+  margin-bottom: 24px;
 }
-.icon-box svg { width: 32px; height: 32px; stroke: var(--secondary); fill: none; stroke-width: 2; }
+.icon-box svg { width: 24px; height: 24px; stroke: var(--primary); fill: none; stroke-width: 2; }
 
 /* ABOUT */
-.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center; margin-bottom: 100px; }
+.about-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: center; }
 .about-vis {
-  position: relative; aspect-ratio: 1.2;
-  background: linear-gradient(135deg, #0a2540 0%, #00060d 100%);
-  border-radius: 24px; border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center; overflow: hidden;
+  position: relative; aspect-ratio: 1;
+  background: radial-gradient(circle at center, var(--primary-glow) 0%, transparent 70%);
+  display: flex; align-items: center; justify-content: center;
 }
-.about-vis-num {
-  font-family: 'Montserrat', sans-serif; font-size: 88px; font-weight: 900;
-  color: var(--white); display: block; line-height: 1;
-}
+#orbit-canvas { position: absolute; inset: 0; }
 
-.mvv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-.mvv-card { padding: 48px; }
-.mvv-title { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 16px; }
-
-/* SOLAR INFO */
-.solar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-.solar-card-title { font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 700; color: var(--white); margin-bottom: 24px; }
-.benefit-item { display: flex; gap: 16px; margin-bottom: 20px; font-size: 15px; }
-.benefit-item strong { color: var(--white); font-weight: 600; }
-.check { color: var(--success); font-weight: 800; }
-
-.step-num {
-  width: 40px; height: 40px; background: var(--secondary); color: var(--white);
-  border-radius: 50%; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700;
-  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-}
-
-/* SERVICES */
-.services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-.service-title { font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 700; color: var(--white); margin-bottom: 16px; }
-
-/* SIMULATOR - PREMIUM LOOK */
+/* SOLAR SIMULATOR - THE CENTERPIECE */
 .sim-wrap {
-  background: #0a2540; border: 1px solid var(--border);
-  padding: 80px; border-radius: 32px;
+  background: linear-gradient(145deg, #0a0a0a 0%, #000 100%);
+  border: 1px solid var(--border); padding: 60px; border-radius: 40px;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.5);
 }
-.sim-title { font-family: 'Montserrat', sans-serif; font-size: 40px; font-weight: 800; color: var(--white); margin-bottom: 16px; }
-.sim-title span { color: var(--secondary); }
 
 .input-group label {
-  font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700;
-  color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px;
+  font-size: 11px; font-weight: 700; color: var(--muted);
+  text-transform: uppercase; margin-bottom: 10px; display: block;
 }
 .input-group select, .input-group input {
-  background: rgba(255,255,255,0.05); border: 1px solid var(--border);
-  border-radius: 12px; color: var(--white); padding: 18px 24px; font-size: 16px;
+  width: 100%; background: var(--dark); border: 1px solid var(--border);
+  padding: 16px 20px; border-radius: 12px; color: #fff; font-size: 16px;
+  transition: 0.3s;
 }
+.input-group input:focus { border-color: var(--primary); outline: none; }
+
+.adj-tab {
+  background: var(--surface); border: 1px solid var(--border);
+  color: var(--muted); padding: 10px 20px; border-radius: 50px;
+  cursor: pointer; transition: 0.3s; font-size: 13px; font-weight: 600;
+}
+.adj-tab-active { background: var(--primary); color: var(--darker); border-color: var(--primary); }
 
 .calc-btn {
-  background: var(--secondary); color: var(--white); border-radius: 12px;
-  font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 700;
-  padding: 24px; transition: all 0.3s;
+  width: 100%; background: var(--primary); color: var(--darker);
+  font-weight: 800; padding: 20px; border-radius: 16px;
+  border: none; cursor: pointer; transition: 0.3s; margin-top: 32px;
+  text-transform: uppercase; letter-spacing: 1px;
 }
+.calc-btn:hover { transform: scale(1.02); box-shadow: 0 0 30px var(--primary-glow); }
 
-.result-card { background: rgba(255,255,255,0.03); border-radius: 16px; padding: 32px; }
-.result-val { font-family: 'Montserrat', sans-serif; font-size: 32px; font-weight: 800; color: var(--white); }
+.result-card {
+  background: var(--surface); padding: 32px; border-radius: 20px;
+  border: 1px solid var(--border); text-align: center;
+}
+.result-val { font-family: 'Montserrat', sans-serif; font-size: 32px; font-weight: 900; color: var(--primary); }
 
 /* PLANS */
-.plan-card { border-radius: 24px; padding: 56px 48px; }
-.plan-card.featured {
-  background: var(--primary-light);
-  border-color: var(--secondary);
-  transform: scale(1.05);
-}
-.plan-badge { border-radius: 50px; background: var(--secondary); padding: 6px 16px; font-size: 10px; }
-.plan-price { font-family: 'Montserrat', sans-serif; font-size: 48px; font-weight: 800; }
-.plan-btn { border-radius: 12px; padding: 18px; font-family: 'Montserrat', sans-serif; font-size: 14px; }
+.plans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.plan-card.featured { border-color: var(--primary); background: rgba(0, 255, 204, 0.03); }
+.plan-badge { background: var(--primary); color: var(--darker); padding: 4px 12px; border-radius: 50px; font-size: 10px; font-weight: 800; }
 
 /* FOOTER */
-footer { background: #00060d; padding: 100px 64px 48px; }
-.footer-col h4 { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; color: var(--white); }
-.social-link { border-radius: 12px; }
+footer { padding: 80px 20px 40px; border-top: 1px solid var(--border); }
+.footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 60px; max-width: 1200px; margin: 0 auto; }
+.footer-logo { height: 40px; margin-bottom: 20px; }
 
-/* WA FLOAT - CLEANER */
-.wa-float {
-  border-radius: 50px; padding: 16px 32px;
-  box-shadow: 0 10px 25px rgba(37,211,102,0.3);
+/* MOBILE */
+@media (max-width: 900px) {
+  .nav-links, .nav-cta { display: none; }
+  .bento-grid, .hero-stats, .plans-grid, .footer-grid, .about-grid { grid-template-columns: 1fr; }
+  .sim-wrap { padding: 30px 20px; }
 }
 
-/* DRAWER */
-.drawer { background: #010912; width: 320px; }
-.drawer-nav a { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 600; }
-
-@media (max-width: 1024px) {
-  nav, .section-wrap, footer { padding-left: 32px; padding-right: 32px; }
-  .about-grid, .mvv-grid, .solar-grid, .services-grid, .plans-grid { grid-template-columns: 1fr; }
-  .plan-card.featured { transform: none; }
-}
+.reveal { opacity: 0; transform: translateY(30px); transition: 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
 </style>
 </head>
 <body>
@@ -340,48 +286,24 @@ footer { background: #00060d; padding: 100px 64px 48px; }
     <li><a href="#contato">Contato</a></li>
   </ul>
   <a href="https://wa.me/5589981451993" class="nav-cta">Orçamento</a>
-  <button class="ham" id="ham-btn" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
 </nav>
-
-<!-- DRAWER -->
-<div class="drawer-overlay" id="overlay"></div>
-<div class="drawer" id="drawer">
-  <div class="drawer-head">
-    <img class="drawer-logo" src="assets/logo.svg" alt="ETI Logo">
-    <button class="drawer-close" id="drawer-close">✕</button>
-  </div>
-  <nav class="drawer-nav">
-    <a href="#home">Home <span>→</span></a>
-    <a href="#quem-somos">Sobre <span>→</span></a>
-    <a href="#servicos">Serviços <span>→</span></a>
-    <a href="#solar">Energia Solar <span>→</span></a>
-    <a href="#protect">Planos <span>→</span></a>
-    <a href="#contato">Contato <span>→</span></a>
-  </nav>
-  <div class="drawer-footer">
-    <a href="https://wa.me/5589981451993">Solicitar Orçamento</a>
-  </div>
-</div>
 
 <!-- HERO -->
 <section id="home">
-  <div class="hero-grid"></div>
   <div class="hero-inner">
     <div class="hero-tag">Tecnologia · Segurança · Energia</div>
     <h1 class="hero-h1">
-      <span class="line1">Sua vida</span>
-      <span class="line2">Segura & Inteligente</span>
+      <span>Sua vida</span>
+      <span class="accent">Inteligente & Segura</span>
     </h1>
-    <p class="hero-sub">Especialistas em Energia Solar, Segurança Eletrônica e Infraestrutura de Redes com foco em alta performance e economia real.</p>
+    <p class="hero-sub">Engenharia de ponta em Energia Solar e Segurança Eletrônica. Transformamos inovação em economia e proteção real.</p>
     <div class="hero-btns">
       <a href="#solar" class="btn-primary">⚡ Simular Solar</a>
-      <a href="#quem-somos" class="btn-secondary">Conheça a ETI</a>
+      <a href="#quem-somos" class="btn-secondary">Nossa História</a>
     </div>
     <div class="hero-stats">
-      <div class="stat"><span class="stat-num" data-target="12">0</span><span class="stat-label">Anos de experiência</span></div>
-      <div class="stat"><span class="stat-num" data-target="95">0</span><span class="stat-label">% Economia Solar</span></div>
+      <div class="stat"><span class="stat-num" data-target="12">0</span><span class="stat-label">Anos de Experiência</span></div>
+      <div class="stat"><span class="stat-num" data-target="95">0</span><span class="stat-label">% Economia Média</span></div>
       <div class="stat"><span class="stat-num" data-target="500">0</span><span class="stat-label">Projetos Ativos</span></div>
     </div>
   </div>
@@ -392,188 +314,118 @@ footer { background: #00060d; padding: 100px 64px 48px; }
   <div class="section-wrap">
     <div class="about-grid reveal">
       <div>
-        <span class="section-tag">Nossa Trajetória</span>
-        <h2 class="section-title">Inovação com <span>Propósito e Confiança</span></h2>
-        <p class="section-sub" style="margin-bottom:24px">A ETI Tecnologies consolidou sua marca como referência em soluções tecnológicas de alto padrão. Com mais de 12 anos de atuação no Tocantins, entregamos engenharia de ponta para quem busca segurança e sustentabilidade.</p>
-        <p class="section-sub">Unimos expertise técnica a um atendimento personalizado para garantir que cada projeto supere as expectativas de desempenho e economia.</p>
+        <span class="section-tag">Sobre a ETI</span>
+        <h2 class="section-title">Engenharia com <span>DNA Tecnológico</span></h2>
+        <p class="hero-sub" style="text-align:left; margin:0 0 24px">Com mais de uma década de atuação no Tocantins, a ETI Tecnologies é pioneira em integrar soluções de energia e segurança com inteligência digital.</p>
+        <p class="hero-sub" style="text-align:left; margin:0">Não entregamos apenas equipamentos; desenhamos infraestruturas que garantem a continuidade e a eficiência do seu patrimônio.</p>
       </div>
       <div class="about-vis">
-        <div style="text-align: center;">
-          <span class="about-vis-num">12+</span>
-          <p style="color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; font-size: 14px;">Anos de Excelência</p>
+        <canvas id="orbit-canvas"></canvas>
+        <div style="text-align: center; position: relative; z-index: 2;">
+          <span style="font-size: 64px; font-weight: 900; color: #fff;">12+</span>
+          <p style="color: var(--primary); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 12px;">Anos de Mercado</p>
         </div>
-      </div>
-    </div>
-    <div class="mvv-grid reveal">
-      <div class="card">
-        <div class="icon-box">
-          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-        </div>
-        <h3 class="mvv-title">Missão</h3>
-        <p class="section-sub" style="font-size: 15px;">Prover soluções tecnológicas sustentáveis que garantam proteção patrimonial e eficiência energética com rentabilidade.</p>
-      </div>
-      <div class="card">
-        <div class="icon-box">
-          <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        </div>
-        <h3 class="mvv-title">Visão</h3>
-        <p class="section-sub" style="font-size: 15px;">Ser o maior ecossistema de tecnologia e segurança integrada do Norte do Brasil até 2028.</p>
-      </div>
-      <div class="card">
-        <div class="icon-box">
-          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </div>
-        <h3 class="mvv-title">Valores</h3>
-        <p class="section-sub" style="font-size: 15px;">Ética profissional, inovação constante, compromisso com o cliente e responsabilidade socioambiental.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SOLAR INFO -->
-<section id="solar-info" style="background: rgba(255,255,255,0.02); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
-  <div class="section-wrap">
-    <div style="text-align:center; margin-bottom:80px;" class="reveal">
-      <span class="section-tag">Eficiência Energética</span>
-      <h2 class="section-title">A Inteligência <span>Fotovoltaica</span></h2>
-    </div>
-    <div class="solar-grid reveal">
-      <div class="card">
-        <div class="icon-box">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-        </div>
-        <h3 class="solar-card-title">Benefícios Estratégicos</h3>
-        <div class="benefit-item"><span class="check">✔</span><span><strong>Economia Imediata:</strong> Redução de até 95% na conta de luz.</span></div>
-        <div class="benefit-item"><span class="check">✔</span><span><strong>Valorização:</strong> Aumento real do valor de mercado do imóvel.</span></div>
-        <div class="benefit-item"><span class="check">✔</span><span><strong>Longo Prazo:</strong> Equipamentos com garantia de 25 anos.</span></div>
-      </div>
-      <div class="card">
-        <div class="icon-box">
-          <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-        </div>
-        <h3 class="solar-card-title">Fluxo de Operação</h3>
-        <div class="benefit-item"><span class="check">01.</span><span><strong>Captação:</strong> Painéis de silício convertem luz em energia.</span></div>
-        <div class="benefit-item"><span class="check">02.</span><span><strong>Inversão:</strong> O inversor adapta a energia para uso imediato.</span></div>
-        <div class="benefit-item"><span class="check">03.</span><span><strong>Créditos:</strong> O excesso vira saldo positivo na sua conta.</span></div>
-      </div>
-      <div class="card">
-        <div class="icon-box">
-          <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-        </div>
-        <h3 class="solar-card-title">Suporte e Manutenção</h3>
-        <p class="section-sub" style="font-size: 14px; margin-bottom: 24px;">Garantimos que sua usina solar opere sempre na capacidade máxima com revisões preventivas semestrais.</p>
-        <div class="benefit-item"><span class="check">✔</span><span>Limpeza profissional de módulos</span></div>
-        <div class="benefit-item"><span class="check">✔</span><span>Monitoramento digital via App</span></div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- SERVICES -->
-<section id="servicos">
+<section id="servicos" style="background: rgba(255,255,255,0.01);">
   <div class="section-wrap">
-    <div style="text-align:center; margin-bottom:80px;" class="reveal">
-      <span class="section-tag">Nossas Soluções</span>
-      <h2 class="section-title">Engenharia de <span>Alta Performance</span></h2>
-    </div>
-    <div class="services-grid reveal">
+    <span class="section-tag">Expertise</span>
+    <h2 class="section-title">Nossas <span>Soluções</span></h2>
+    <div class="bento-grid reveal">
       <div class="card">
-        <div class="icon-box">
-          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </div>
-        <h3 class="service-title">Segurança Eletrônica</h3>
-        <p class="section-sub" style="font-size: 15px;">Monitoramento inteligente 24h, alarmes de alta precisão e controle de acesso biométrico.</p>
+        <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h3 style="margin-bottom:12px">Segurança 360°</h3>
+        <p style="color:var(--muted); font-size:14px">Monitoramento inteligente com IA, alarmes de precisão e controle de acesso biométrico.</p>
+      </div>
+      <div class="card" style="grid-row: span 2; display: flex; flex-direction: column; justify-content: center; background: linear-gradient(145deg, rgba(0,255,204,0.1), transparent);">
+        <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+        <h3 style="margin-bottom:16px; font-size:24px">Energia Solar</h3>
+        <p style="color:var(--muted); font-size:16px; margin-bottom:24px">Sistemas fotovoltaicos de alta eficiência para reduzir sua conta em até 95%.</p>
+        <ul style="list-style:none; color:var(--primary); font-size:13px; font-weight:600">
+          <li style="margin-bottom:8px">✔ Payback em 3-4 anos</li>
+          <li style="margin-bottom:8px">✔ Garantia de 25 anos</li>
+          <li>✔ Monitoramento via App</li>
+        </ul>
       </div>
       <div class="card">
-        <div class="icon-box">
-          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-        </div>
-        <h3 class="service-title">Energia Solar</h3>
-        <p class="section-sub" style="font-size: 15px;">Projetos personalizados para residências, empresas e agronegócio com máxima economia.</p>
+        <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/></svg></div>
+        <h3 style="margin-bottom:12px">Redes & Fibra</h3>
+        <p style="color:var(--muted); font-size:14px">Infraestrutura de TI, Wi-Fi 6 e cabeamento estruturado para máxima performance corporativa.</p>
       </div>
       <div class="card">
-        <div class="icon-box">
-          <svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
-        </div>
-        <h3 class="service-title">Infraestrutura de Redes</h3>
-        <p class="section-sub" style="font-size: 15px;">Fibra óptica, Wi-Fi 6 de alta densidade e cabeamento estruturado para empresas.</p>
+        <div class="icon-box"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/></svg></div>
+        <h3 style="margin-bottom:12px">Gestão de TI</h3>
+        <p style="color:var(--muted); font-size:14px">Suporte especializado e terceirização de TI para focar no que realmente importa: seu negócio.</p>
+      </div>
+      <div class="card">
+        <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/></svg></div>
+        <h3 style="margin-bottom:12px">Automação</h3>
+        <p style="color:var(--muted); font-size:14px">Integração de sistemas residenciais e corporativos para maior conforto e controle total.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- SIMULATOR -->
-<section id="solar" style="background: #00060d;">
+<section id="solar">
   <div class="section-wrap">
     <div class="sim-wrap reveal">
-      <span class="section-tag" style="color: var(--white); opacity: 0.6;">Ferramenta de Análise</span>
-      <h2 class="sim-title">Simulador de <span>Economia Solar</span></h2>
-      <p class="section-sub" style="margin-bottom: 56px;">Calcule o potencial de redução de custos e o retorno sobre o investimento para sua propriedade.</p>
+      <div style="text-align: center; margin-bottom: 48px;">
+        <span class="section-tag">Calculadora Solar</span>
+        <h2 class="section-title">Simule sua <span>Independência</span></h2>
+      </div>
 
-      <!-- STATE + BILL -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; margin-bottom: 48px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px;">
         <div class="input-group">
           <label>Seu Estado</label>
-          <select id="state-select" style="width: 100%;"></select>
+          <select id="state-select"></select>
         </div>
         <div class="input-group">
-          <label>Valor Médio da Fatura (R$)</label>
-          <input id="bill-input" type="number" placeholder="Ex: 500" min="1" style="width: 100%;">
+          <label>Gasto Mensal (R$)</label>
+          <input id="bill-input" type="number" placeholder="Ex: 500">
         </div>
       </div>
 
-      <!-- TABS -->
-      <div style="display:flex;gap:12px;margin-bottom:32px;flex-wrap:wrap">
-        <button id="tab-slider" class="adj-tab adj-tab-active" type="button" data-tab="slider">Ajuste Manual</button>
-        <button id="tab-aparelhos" class="adj-tab" type="button" data-tab="aparelhos">Por Equipamentos</button>
-        <button id="tab-perfil" class="adj-tab" type="button" data-tab="perfil">Perfil de Uso</button>
+      <div style="display:flex; gap:12px; margin-bottom:32px; justify-content:center">
+        <button class="adj-tab adj-tab-active" data-tab="slider">Ajuste Manual</button>
+        <button class="adj-tab" data-tab="perfil">Perfil de Uso</button>
       </div>
 
-      <!-- TAB: SLIDER -->
       <div id="panel-slider" class="adj-panel">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-          <span style="font-weight: 600; color: var(--muted);">Consumo Estimado:</span>
-          <span id="slider-kwh-label" style="font-size: 24px; font-weight: 800; color: var(--white);"></span>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+          <span style="color: var(--muted); font-weight: 600;">Consumo Estimado</span>
+          <span id="slider-kwh-label" style="color: var(--primary); font-weight: 800; font-size: 20px;">0 kWh</span>
         </div>
-        <input type="range" id="kwh-slider" min="50" max="2000" step="10" style="width: 100%; margin-bottom: 40px;">
+        <input type="range" id="kwh-slider" min="50" max="2000" step="10" style="width: 100%;">
       </div>
 
-      <!-- TAB: APARELHOS (Simplificado no CSS anterior) -->
-      <div id="panel-aparelhos" class="adj-panel" style="display:none">
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px" id="aparelhos-grid"></div>
-      </div>
-
-      <!-- TAB: PERFIL -->
       <div id="panel-perfil" class="adj-panel" style="display:none">
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px">
-          <button class="perfil-btn" type="button" data-perfil-kwh="280"><strong>Residencial</strong><span>Casa padrão</span></button>
-          <button class="perfil-btn" type="button" data-perfil-kwh="500"><strong>Premium</strong><span>Com Ar-Condicionado</span></button>
-          <button class="perfil-btn" type="button" data-perfil-kwh="900"><strong>Comercial</strong><span>Empresas e Lojas</span></button>
-          <button class="perfil-btn" type="button" data-perfil-kwh="1500"><strong>Industrial</strong><span>Grandes Consumidores</span></button>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px;">
+          <button class="adj-tab perfil-btn" data-perfil-kwh="300">Residencial</button>
+          <button class="adj-tab perfil-btn" data-perfil-kwh="600">Premium</button>
+          <button class="adj-tab perfil-btn" data-perfil-kwh="1200">Comercial</button>
         </div>
       </div>
 
-      <button class="calc-btn" id="calculate-btn" style="width: 100%; margin-top: 32px;">CALCULAR PROJETO AGORA</button>
+      <button class="calc-btn" id="calculate-btn">Gerar Análise Gratuita</button>
 
-      <div class="results" id="results" style="margin-top: 64px;">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-bottom: 40px;">
+      <div id="results" style="display:none; margin-top: 48px; border-top: 1px solid var(--border); padding-top: 48px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
           <div class="result-card">
-            <span style="font-size: 12px; color: var(--muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.1em; display: block; margin-bottom: 12px;">Economia Anual</span>
-            <div class="result-val" id="res-savings" style="color: var(--success);">R$ 0</div>
+            <span style="font-size: 11px; color: var(--muted); text-transform: uppercase;">Economia Anual</span>
+            <div class="result-val" id="res-savings">R$ 0</div>
           </div>
           <div class="result-card">
-            <span style="font-size: 12px; color: var(--muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.1em; display: block; margin-bottom: 12px;">Payback Estimado</span>
-            <div class="result-val">3-4 Anos</div>
-          </div>
-          <div class="result-card">
-            <span style="font-size: 12px; color: var(--muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.1em; display: block; margin-bottom: 12px;">Potência da Usina</span>
+            <span style="font-size: 11px; color: var(--muted); text-transform: uppercase;">Potência Estimada</span>
             <div class="result-val" id="res-watts">0W</div>
           </div>
         </div>
-        <div style="background: rgba(255,255,255,0.03); padding: 40px; border-radius: 20px; border: 1px solid var(--border);">
-          <h4 style="margin-bottom: 24px; font-family: 'Montserrat', sans-serif;">Resumo da Consultoria</h4>
-          <p class="section-sub" style="font-size: 15px; margin-bottom: 32px;">Com base no seu perfil, o investimento em energia solar pode reduzir seu custo fixo de energia para a taxa mínima de disponibilidade da rede.</p>
-          <a id="whatsapp-link" href="#" target="_blank" class="nav-cta" style="display: inline-block; padding: 18px 40px;">Falar com Especialista</a>
+        <div style="text-align: center; margin-top: 40px;">
+          <a id="whatsapp-link" href="#" target="_blank" class="nav-cta" style="padding: 16px 48px; font-size: 15px;">Falar com Engenheiro no WhatsApp</a>
         </div>
       </div>
     </div>
@@ -581,32 +433,40 @@ footer { background: #00060d; padding: 100px 64px 48px; }
 </section>
 
 <!-- PLANS -->
-<section id="protect" style="background: rgba(255,255,255,0.02);">
+<section id="protect">
   <div class="section-wrap">
-    <div style="text-align:center; margin-bottom:80px;" class="reveal">
-      <span class="section-tag">Continuidade de Negócio</span>
-      <h2 class="section-title">Planos <span>ETI Protect</span></h2>
-      <p class="section-sub" style="margin: 0 auto;">Garanta suporte prioritário e manutenção preventiva constante para sua infraestrutura.</p>
-    </div>
-    <div class="plans-grid reveal" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; align-items: stretch;">
-      <div class="card plan-card">
-        <h3 style="font-family: 'Montserrat', sans-serif; font-size: 18px; margin-bottom: 24px;">Residencial</h3>
-        <div class="plan-price">R$ 39<span>,90</span></div>
-        <p style="color: var(--muted); font-size: 14px; margin-bottom: 32px;">Suporte remoto e check-up anual</p>
-        <a href="https://wa.me/5589981451993" class="btn-secondary" style="display: block; text-align: center; padding: 14px;">Assinar</a>
+    <span class="section-tag">Manutenção</span>
+    <h2 class="section-title">Planos <span>ETI Protect</span></h2>
+    <div class="plans-grid reveal">
+      <div class="card">
+        <h3 style="margin-bottom:16px">Basic</h3>
+        <div style="font-size: 32px; font-weight: 900; margin-bottom: 24px;">R$ 39<span style="font-size:16px; color:var(--muted)">,90/mês</span></div>
+        <ul style="list-style:none; color:var(--muted); font-size:14px; margin-bottom:32px">
+          <li style="margin-bottom:12px">✔ Suporte Remoto</li>
+          <li>✔ Check-up Anual</li>
+        </ul>
+        <a href="https://wa.me/5589981451993" class="btn-secondary" style="display:block; text-align:center">Contratar</a>
       </div>
-      <div class="card plan-card featured">
-        <span class="plan-badge" style="margin-bottom: 16px; display: inline-block;">Recomendado</span>
-        <h3 style="font-family: 'Montserrat', sans-serif; font-size: 18px; margin-bottom: 24px;">Business Pro</h3>
-        <div class="plan-price">R$ 349<span>,90</span></div>
-        <p style="color: var(--muted); font-size: 14px; margin-bottom: 32px;">Suporte CFTV, Redes e 2 Visitas inclusas</p>
-        <a href="https://wa.me/5589981451993" class="btn-primary" style="display: block; text-align: center; padding: 14px;">Assinar</a>
+      <div class="card featured">
+        <span class="plan-badge">Mais Escolhido</span>
+        <h3 style="margin-bottom:16px; margin-top:12px">Business Pro</h3>
+        <div style="font-size: 32px; font-weight: 900; margin-bottom: 24px;">R$ 349<span style="font-size:16px; color:var(--muted)">,90/mês</span></div>
+        <ul style="list-style:none; color:var(--muted); font-size:14px; margin-bottom:32px">
+          <li style="margin-bottom:12px">✔ Suporte Prioritário</li>
+          <li style="margin-bottom:12px">✔ 2 Visitas Técnicas</li>
+          <li>✔ Gestão de CFTV</li>
+        </ul>
+        <a href="https://wa.me/5589981451993" class="btn-primary" style="display:block; text-align:center">Contratar</a>
       </div>
-      <div class="card plan-card">
-        <h3 style="font-family: 'Montserrat', sans-serif; font-size: 18px; margin-bottom: 24px;">Enterprise 360</h3>
-        <div class="plan-price">R$ 799<span>,90</span></div>
-        <p style="color: var(--muted); font-size: 14px; margin-bottom: 32px;">Suporte VIP 24h e gestão total de TI</p>
-        <a href="https://wa.me/5589981451993" class="btn-secondary" style="display: block; text-align: center; padding: 14px;">Assinar</a>
+      <div class="card">
+        <h3 style="margin-bottom:16px">Enterprise</h3>
+        <div style="font-size: 32px; font-weight: 900; margin-bottom: 24px;">R$ 799<span style="font-size:16px; color:var(--muted)">,90/mês</span></div>
+        <ul style="list-style:none; color:var(--muted); font-size:14px; margin-bottom:32px">
+          <li style="margin-bottom:12px">✔ Suporte 24/7</li>
+          <li style="margin-bottom:12px">✔ Gestão Total de TI</li>
+          <li>✔ Visitas Ilimitadas</li>
+        </ul>
+        <a href="https://wa.me/5589981451993" class="btn-secondary" style="display:block; text-align:center">Contratar</a>
       </div>
     </div>
   </div>
@@ -617,39 +477,25 @@ footer { background: #00060d; padding: 100px 64px 48px; }
   <div class="footer-grid">
     <div>
       <img class="footer-logo" src="assets/logo.svg" alt="ETI Logo">
-      <p class="footer-desc">Referência em tecnologia e segurança eletrônica no Tocantins. Mais de 12 anos entregando excelência e inovação para famílias e empresas.</p>
+      <p style="color: var(--muted); font-size: 14px; line-height: 1.6;">Engenharia, tecnologia e segurança integrada. Liderando a transformação digital no Tocantins há mais de 12 anos.</p>
     </div>
-    <div class="footer-col">
-      <h4>// Contato</h4>
-      <ul>
-        <li><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.5 2 2 0 0 1 3.59 1.32h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.37a16 16 0 0 0 6.72 6.72l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>(89) 98145-1993 — Vendas</li>
-        <li><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>(63) 98115-0684 — Suporte</li>
-        <li><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Pedro Afonso — TO</li>
-      </ul>
+    <div>
+      <h4 style="font-size: 14px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px;">Contato</h4>
+      <p style="color: var(--muted); font-size: 14px; margin-bottom: 8px;">(89) 98145-1993</p>
+      <p style="color: var(--muted); font-size: 14px;">contato@etitecnologies.com.br</p>
     </div>
-    <div class="footer-col">
-      <h4>// Social</h4>
-      <div class="social-links">
-        <a href="https://www.instagram.com/etitecnologies/" target="_blank" rel="noopener noreferrer" class="social-link">
-          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-        </a>
-        <a href="https://www.facebook.com/etitecnologies/" target="_blank" rel="noopener noreferrer" class="social-link">
-          <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-        </a>
+    <div>
+      <h4 style="font-size: 14px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px;">Siga-nos</h4>
+      <div style="display: flex; gap: 16px;">
+        <a href="#" style="color: var(--primary); font-weight: 700; text-decoration: none;">Instagram</a>
+        <a href="#" style="color: var(--primary); font-weight: 700; text-decoration: none;">LinkedIn</a>
       </div>
     </div>
   </div>
-  <div class="footer-bottom">
-    <span>© <span id="footer-year"></span> ETI TECNOLOGIES — TODOS OS DIREITOS RESERVADOS</span>
-    <span>PEDRO AFONSO — TOCANTINS — BRASIL</span>
+  <div style="text-align: center; margin-top: 60px; padding-top: 32px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted);">
+    © <span id="footer-year"></span> ETI TECNOLOGIES. TODOS OS DIREITOS RESERVADOS.
   </div>
 </footer>
-
-<!-- WA FLOAT -->
-<a href="https://wa.me/5589981451993" target="_blank" rel="noopener noreferrer" class="wa-float">
-  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-  Falar com Especialista
-</a>
 
 <script src="main.js" defer></script>
 </body>

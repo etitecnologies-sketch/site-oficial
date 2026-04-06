@@ -1,12 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. NAV & MOBILE MENU
+  // 1. NAV SCROLL EFFECT
   const navbar = document.getElementById('navbar');
-  const hamBtn = document.getElementById('ham-btn');
-  const drawer = document.getElementById('drawer');
-  const overlay = document.getElementById('overlay');
-  const drawerClose = document.getElementById('drawer-close');
-  const drawerLinks = document.querySelectorAll('.drawer-nav a');
-
   window.addEventListener('scroll', () => {
     if (window.scrollY > 50) {
       navbar.classList.add('scrolled');
@@ -14,16 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
       navbar.classList.remove('scrolled');
     }
   });
-
-  const toggleDrawer = () => {
-    if (drawer) drawer.classList.toggle('open');
-    if (overlay) overlay.classList.toggle('open');
-  };
-
-  if (hamBtn) hamBtn.addEventListener('click', toggleDrawer);
-  if (overlay) overlay.addEventListener('click', toggleDrawer);
-  if (drawerClose) drawerClose.addEventListener('click', toggleDrawer);
-  drawerLinks.forEach(link => link.addEventListener('click', toggleDrawer));
 
   // 2. REVEAL ANIMATION
   const reveals = document.querySelectorAll('.reveal');
@@ -55,12 +39,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('a, button, input, select').forEach(el => {
       el.addEventListener('mouseenter', () => {
-        cursorRing.style.transform = 'translate(-50%, -50%) scale(1.5)';
-        cursorRing.style.borderColor = 'var(--secondary)';
+        cursorRing.style.width = '60px';
+        cursorRing.style.height = '60px';
+        cursorRing.style.borderColor = 'var(--primary)';
+        cursorRing.style.background = 'rgba(0, 255, 204, 0.05)';
       });
       el.addEventListener('mouseleave', () => {
-        cursorRing.style.transform = 'translate(-50%, -50%) scale(1)';
-        cursorRing.style.borderColor = 'rgba(255,255,255,0.3)';
+        cursorRing.style.width = '30px';
+        cursorRing.style.height = '32px';
+        cursorRing.style.borderColor = 'var(--primary-glow)';
+        cursorRing.style.background = 'transparent';
       });
     });
   }
@@ -85,9 +73,9 @@ document.addEventListener('DOMContentLoaded', () => {
       reset() {
         this.x = Math.random() * w;
         this.y = Math.random() * h;
-        this.vx = (Math.random() - 0.5) * 0.3;
-        this.vy = (Math.random() - 0.5) * 0.3;
-        this.size = Math.random() * 1.5;
+        this.vx = (Math.random() - 0.5) * 0.2;
+        this.vy = (Math.random() - 0.5) * 0.2;
+        this.size = Math.random() * 1.2;
       }
       update() {
         this.x += this.vx;
@@ -95,14 +83,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (this.x < 0 || this.x > w || this.y < 0 || this.y > h) this.reset();
       }
       draw() {
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+        ctx.fillStyle = 'rgba(0, 255, 204, 0.2)';
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
       }
     }
 
-    for (let i = 0; i < 60; i++) particles.push(new Particle());
+    for (let i = 0; i < 50; i++) particles.push(new Particle());
 
     const animate = () => {
       ctx.clearRect(0, 0, w, h);
@@ -115,20 +103,52 @@ document.addEventListener('DOMContentLoaded', () => {
     animate();
   }
 
-  // 5. SOLAR SIMULATOR
+  // 5. ORBIT CANVAS (About Section)
+  const orbitCanvas = document.getElementById('orbit-canvas');
+  if (orbitCanvas) {
+    const ctx = orbitCanvas.getContext('2d');
+    let w = orbitCanvas.width = 400;
+    let h = orbitCanvas.height = 400;
+
+    const animateOrbit = (t) => {
+      ctx.clearRect(0, 0, w, h);
+      ctx.strokeStyle = 'rgba(0, 255, 204, 0.15)';
+      ctx.lineWidth = 1;
+      
+      // Orbits
+      for(let i = 1; i <= 3; i++) {
+        ctx.beginPath();
+        ctx.arc(w/2, h/2, 50 * i, 0, Math.PI * 2);
+        ctx.stroke();
+        
+        // Planet on orbit
+        const angle = (t * 0.0008 * (4 - i)) % (Math.PI * 2);
+        const px = w/2 + Math.cos(angle) * (50 * i);
+        const py = h/2 + Math.sin(angle) * (50 * i);
+        
+        ctx.fillStyle = '#00ffcc';
+        ctx.beginPath();
+        ctx.arc(px, py, 3, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Glow
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = '#00ffcc';
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+      }
+      requestAnimationFrame(animateOrbit);
+    };
+    requestAnimationFrame(animateOrbit);
+  }
+
+  // 6. SOLAR SIMULATOR
   const states = [
     { name: 'Tocantins', code: 'TO', rate: 0.92, icms: 25 },
     { name: 'Maranhão', code: 'MA', rate: 0.98, icms: 27 },
     { name: 'Piauí', code: 'PI', rate: 0.95, icms: 27 },
     { name: 'Bahia', code: 'BA', rate: 0.89, icms: 25 },
     { name: 'Goiás', code: 'GO', rate: 0.85, icms: 25 }
-  ];
-
-  const aparelhos = [
-    { name: 'Ar Condicionado', watts: 1000, use: 8 },
-    { name: 'Geladeira', watts: 150, use: 24 },
-    { name: 'Chuveiro', watts: 5500, use: 0.5 },
-    { name: 'Iluminação/TV', watts: 200, use: 6 }
   ];
 
   const stateSelect = document.getElementById('state-select');
@@ -145,6 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const panels = document.querySelectorAll('.adj-panel');
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
+      if (tab.classList.contains('perfil-btn')) return;
       tabs.forEach(t => t.classList.remove('adj-tab-active'));
       tab.classList.add('adj-tab-active');
       const target = tab.getAttribute('data-tab');
@@ -182,11 +203,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Perfil
   document.querySelectorAll('.perfil-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.perfil-btn').forEach(b => b.classList.remove('perfil-active'));
-      btn.classList.add('perfil-active');
       const kwh = btn.getAttribute('data-perfil-kwh');
       if (kwhSlider) {
         kwhSlider.value = kwh;
@@ -194,34 +212,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
-
-  // Aparelhos
-  const aparelhosGrid = document.getElementById('aparelhos-grid');
-  if (aparelhosGrid) {
-    aparelhos.forEach((ap, idx) => {
-      const item = document.createElement('div');
-      item.className = 'input-group';
-      item.innerHTML = `
-        <label>${ap.name} (Qtd)</label>
-        <input type="number" value="0" min="0" data-idx="${idx}" class="ap-input" style="width:100%">
-      `;
-      aparelhosGrid.appendChild(item);
-    });
-
-    aparelhosGrid.addEventListener('input', () => {
-      let totalKwh = 0;
-      document.querySelectorAll('.ap-input').forEach(input => {
-        const idx = input.getAttribute('data-idx');
-        const qty = parseInt(input.value) || 0;
-        const ap = aparelhos[idx];
-        totalKwh += (ap.watts * ap.use * 30 * qty) / 1000;
-      });
-      if (kwhSlider) {
-        kwhSlider.value = Math.min(Math.max(Math.round(totalKwh), 50), 2000);
-        updateUI();
-      }
-    });
-  }
 
   if (calculateBtn) {
     calculateBtn.addEventListener('click', () => {
@@ -246,7 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 6. FOOTER & STATS
+  // 7. FOOTER & STATS
   const footerYear = document.getElementById('footer-year');
   if (footerYear) footerYear.textContent = new Date().getFullYear();
 
