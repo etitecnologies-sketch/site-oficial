@@ -1,502 +1,971 @@
 <!DOCTYPE html>
-<html lang="pt-br" class="scroll-smooth">
+<html lang="pt-br">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ETI Tecnologies — Engenharia do Futuro</title>
+<title>ETI Technologies — Soluções em Tecnologia e Segurança</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Inter:wght@300;400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
 :root {
-  --primary: #00ffcc;
-  --primary-glow: rgba(0, 255, 204, 0.3);
-  --secondary: #0066ff;
-  --dark: #050505;
-  --darker: #000000;
-  --surface: rgba(255, 255, 255, 0.05);
-  --surface-hover: rgba(255, 255, 255, 0.08);
-  --border: rgba(255, 255, 255, 0.1);
-  --text: #ffffff;
-  --muted: #888888;
-  --glass: blur(12px);
+  --primary: #0a1628;
+  --accent: #0e6fff;
+  --accent2: #00c6a7;
+  --light: #f4f7fc;
+  --white: #ffffff;
+  --text: #1a2740;
+  --muted: #6b7e99;
+  --border: #dde4ef;
+  --card-bg: #ffffff;
+  --section-alt: #f8fafd;
+  --shadow: 0 2px 24px rgba(10,22,40,0.08);
+  --shadow-lg: 0 8px 48px rgba(10,22,40,0.13);
 }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--white);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;overflow-x:hidden;line-height:1.6}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--light)}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* TOPBAR */
+.topbar{background:var(--primary);color:rgba(255,255,255,.6);font-size:12.5px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.topbar-inner{max-width:1200px;margin:0 auto;padding:0 32px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.topbar-items{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+.topbar-items span{display:flex;align-items:center;gap:6px}
+.tdot{width:6px;height:6px;background:var(--accent2);border-radius:50%;flex-shrink:0}
 
-html { scroll-behavior: smooth; }
+/* NAV */
+nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 32px;box-shadow:0 1px 12px rgba(10,22,40,.06);transition:box-shadow .3s}
+nav.elevated{box-shadow:0 4px 24px rgba(10,22,40,.12)}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:68px}
+.nav-brand{font-size:21px;font-weight:800;color:var(--primary);letter-spacing:-.5px;text-decoration:none}
+.nav-brand span{color:var(--accent)}
+.nav-links{display:flex;gap:2px;list-style:none}
+.nav-links a{font-size:13.5px;font-weight:500;color:var(--muted);text-decoration:none;padding:8px 13px;border-radius:7px;transition:all .2s}
+.nav-links a:hover{color:var(--accent);background:rgba(14,111,255,.06)}
+.nav-actions{display:flex;gap:10px;align-items:center}
+.btn-outline{font-size:13px;font-weight:600;color:var(--accent);border:1.5px solid var(--accent);background:transparent;padding:8px 20px;border-radius:8px;text-decoration:none;transition:all .2s;white-space:nowrap}
+.btn-outline:hover{background:rgba(14,111,255,.07)}
+.btn-fill{font-size:13px;font-weight:700;color:#fff;background:var(--accent);border:none;padding:9px 22px;border-radius:8px;text-decoration:none;transition:all .2s;box-shadow:0 2px 12px rgba(14,111,255,.25);white-space:nowrap}
+.btn-fill:hover{background:#0555d6;box-shadow:0 4px 20px rgba(14,111,255,.35);transform:translateY(-1px)}
+.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.ham span{width:22px;height:2px;background:var(--primary);border-radius:2px;transition:.3s;display:block}
 
-body {
-  background: var(--darker);
-  color: var(--text);
-  font-family: 'Inter', sans-serif;
-  overflow-x: hidden;
-  line-height: 1.5;
-}
+/* MOBILE MENU */
+.mobile-menu{display:none;position:fixed;inset:0;z-index:300;background:rgba(10,22,40,.97);backdrop-filter:blur(16px);flex-direction:column;align-items:center;justify-content:center;gap:24px}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-size:22px;font-weight:700;color:rgba(255,255,255,.8);text-decoration:none;transition:color .2s}
+.mobile-menu a:hover{color:#fff}
+.mobile-close{position:absolute;top:24px;right:24px;background:none;border:none;color:rgba(255,255,255,.6);font-size:28px;cursor:pointer}
+.mobile-cta{margin-top:8px;background:var(--accent);color:#fff !important;padding:14px 40px;border-radius:10px;font-size:15px;font-weight:700 !important}
 
-/* SUBTLE CIRCUIT BACKGROUND */
-body::before {
-  content: '';
-  position: fixed; inset: 0;
-  background-image: 
-    radial-gradient(circle at 2px 2px, rgba(0, 255, 204, 0.05) 1px, transparent 0);
-  background-size: 32px 32px;
-  pointer-events: none; z-index: 0;
-}
+/* HERO */
+#home{background:var(--primary);position:relative;overflow:hidden;padding:96px 32px 76px}
+.hero-bg{position:absolute;inset:0;pointer-events:none}
+.hero-bg-glow{position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 80% 50%,rgba(14,111,255,.18) 0%,transparent 70%),radial-gradient(ellipse 40% 50% at 20% 80%,rgba(0,198,167,.1) 0%,transparent 60%)}
+.hero-bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black,transparent)}
+.hero-inner{max-width:1200px;margin:0 auto;position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(14,111,255,.12);border:1px solid rgba(14,111,255,.25);color:#6eb3ff;font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:24px}
+.hpulse{width:7px;height:7px;background:var(--accent2);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.hero-h1{font-family:'DM Serif Display',serif;font-size:clamp(36px,5vw,58px);font-weight:400;line-height:1.08;color:#fff;margin-bottom:22px;letter-spacing:-.5px}
+.hero-h1 em{font-style:italic;color:#6eb3ff}
+.hero-h1 .hl{background:linear-gradient(135deg,#6eb3ff,var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-size:15.5px;color:rgba(255,255,255,.52);max-width:440px;margin-bottom:40px;line-height:1.78;font-weight:400}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-hero-w{font-size:14px;font-weight:700;color:var(--primary);background:#fff;padding:14px 30px;border-radius:9px;text-decoration:none;transition:all .25s;box-shadow:0 4px 20px rgba(0,0,0,.2);display:inline-flex;align-items:center;gap:8px}
+.btn-hero-w:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.28)}
+.btn-hero-g{font-size:14px;font-weight:600;color:rgba(255,255,255,.78);border:1.5px solid rgba(255,255,255,.18);background:transparent;padding:14px 30px;border-radius:9px;text-decoration:none;transition:all .25s;display:inline-flex;align-items:center;gap:8px}
+.btn-hero-g:hover{border-color:rgba(255,255,255,.45);color:#fff;background:rgba(255,255,255,.05)}
+.hero-stats{display:flex;gap:32px;margin-top:48px;padding-top:38px;border-top:1px solid rgba(255,255,255,.08)}
+.stat-num{font-size:26px;font-weight:800;color:#fff;line-height:1}
+.stat-num span{color:var(--accent2)}
+.stat-lbl{font-size:11.5px;color:rgba(255,255,255,.38);margin-top:4px}
 
-/* CUSTOM CURSOR */
-.cursor, .cursor-ring { display: none; }
-@media (pointer: fine) and (hover: hover) {
-  body { cursor: none; }
-  .cursor, .cursor-ring { display: block; }
-}
-.cursor {
-  position: fixed; width: 6px; height: 6px;
-  background: var(--primary); border-radius: 50%;
-  pointer-events: none; z-index: 9999;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 0 10px var(--primary);
-}
-.cursor-ring {
-  position: fixed; width: 30px; height: 32px;
-  border: 1px solid var(--primary-glow); border-radius: 50%;
-  pointer-events: none; z-index: 9998;
-  transform: translate(-50%, -50%);
-  transition: width 0.2s, height 0.2s, border-color 0.2s;
-}
+/* HERO VISUAL */
+.hero-visual{position:relative}
+.hcards{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.hcard{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:22px;backdrop-filter:blur(8px);transition:all .3s}
+.hcard:hover{background:rgba(255,255,255,.08);border-color:rgba(14,111,255,.3);transform:translateY(-2px)}
+.hcard-icon{width:40px;height:40px;border-radius:10px;background:rgba(14,111,255,.15);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:12px}
+.hcard-icon.g{background:rgba(0,198,167,.15)}
+.hcard-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:4px}
+.hcard-desc{font-size:11.5px;color:rgba(255,255,255,.38);line-height:1.5}
+.hcard.s2{grid-column:span 2;display:flex;align-items:center;gap:14px;padding:16px 20px}
+.hcard.s2 .hcard-icon{flex-shrink:0;margin:0}
 
-/* NAV - FLOATING GLASS */
-nav {
-  position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-  width: calc(100% - 40px); max-width: 1200px;
-  z-index: 100; padding: 12px 32px;
-  display: flex; align-items: center; justify-content: space-between;
-  background: rgba(10, 10, 10, 0.6);
-  backdrop-filter: var(--glass);
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  transition: all 0.4s;
-}
-nav.scrolled { top: 10px; background: rgba(0, 0, 0, 0.8); }
-
-.nav-logo { height: 32px; filter: drop-shadow(0 0 5px var(--primary-glow)); }
-.nav-links { display: flex; gap: 32px; list-style: none; }
-.nav-links a {
-  font-size: 13px; font-weight: 500; color: var(--muted);
-  text-decoration: none; transition: 0.3s;
-}
-.nav-links a:hover { color: var(--primary); }
-
-.nav-cta {
-  background: var(--primary); color: var(--darker);
-  font-size: 13px; font-weight: 700; padding: 10px 24px;
-  border-radius: 50px; text-decoration: none;
-  transition: 0.3s; box-shadow: 0 0 15px var(--primary-glow);
-}
-.nav-cta:hover { transform: scale(1.05); box-shadow: 0 0 25px var(--primary-glow); }
-
-/* HERO - IMPACTFUL DARK TECH */
-#home {
-  position: relative; min-height: 100vh;
-  display: flex; align-items: center; justify-content: center;
-  padding: 120px 20px 60px; text-align: center;
-}
-
-#bg-canvas { position: absolute; inset: 0; z-index: 0; opacity: 0.3; }
-
-.hero-inner { position: relative; z-index: 1; max-width: 900px; }
-
-.hero-tag {
-  display: inline-block; padding: 6px 16px;
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 50px; font-size: 11px; font-weight: 700;
-  letter-spacing: 2px; color: var(--primary);
-  text-transform: uppercase; margin-bottom: 24px;
-}
-
-.hero-h1 {
-  font-family: 'Montserrat', sans-serif;
-  font-size: clamp(40px, 8vw, 84px);
-  font-weight: 900; line-height: 1;
-  margin-bottom: 24px; letter-spacing: -2px;
-}
-.hero-h1 span {
-  display: block;
-  background: linear-gradient(180deg, #fff 30%, var(--muted) 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-}
-.hero-h1 .accent {
-  background: linear-gradient(90deg, var(--primary), var(--secondary));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-}
-
-.hero-sub {
-  font-size: 18px; color: var(--muted); max-width: 600px;
-  margin: 0 auto 40px; line-height: 1.6;
-}
-
-.hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-
-.btn-primary {
-  background: var(--primary); color: var(--darker);
-  font-weight: 700; padding: 16px 40px; border-radius: 12px;
-  text-decoration: none; transition: 0.3s;
-}
-.btn-secondary {
-  background: var(--surface); color: #fff;
-  border: 1px solid var(--border);
-  font-weight: 700; padding: 16px 40px; border-radius: 12px;
-  text-decoration: none; transition: 0.3s;
-  backdrop-filter: var(--glass);
-}
-.btn-primary:hover, .btn-secondary:hover { transform: translateY(-3px); }
-
-/* STATS - BENTO STYLE */
-.hero-stats {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 20px; max-width: 800px; margin: 80px auto 0;
-}
-.stat {
-  background: var(--surface); border: 1px solid var(--border);
-  padding: 24px; border-radius: 20px; backdrop-filter: var(--glass);
-}
-.stat-num {
-  font-family: 'Montserrat', sans-serif; font-size: 36px;
-  font-weight: 900; color: var(--primary); display: block;
-}
-.stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+/* TRUST BAR */
+.trust-bar{background:var(--section-alt);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:22px 32px}
+.trust-bar-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:500;color:var(--muted)}
+.trust-divider{width:1px;height:22px;background:var(--border)}
 
 /* SECTIONS */
-section { position: relative; z-index: 1; padding: 100px 20px; }
-.section-wrap { max-width: 1200px; margin: 0 auto; }
+section{padding:88px 32px}
+.sw{max-width:1200px;margin:0 auto}
+.stag{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.stag::before{content:'';width:18px;height:2px;background:var(--accent);border-radius:1px}
+.sh2{font-family:'DM Serif Display',serif;font-size:clamp(28px,4vw,44px);font-weight:400;color:var(--primary);line-height:1.15;margin-bottom:14px;letter-spacing:-.3px}
+.sh2 em{font-style:italic;color:var(--accent)}
+.ssub{font-size:15.5px;color:var(--muted);max-width:520px;line-height:1.72}
+.sh{margin-bottom:52px}
+.sh.c{text-align:center}
+.sh.c .stag{justify-content:center}
+.sh.c .ssub{margin:0 auto}
 
-.section-tag {
-  color: var(--primary); font-size: 12px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 3px; margin-bottom: 16px; display: block;
-}
-.section-title {
-  font-family: 'Montserrat', sans-serif; font-size: clamp(32px, 5vw, 48px);
-  font-weight: 900; line-height: 1.1; margin-bottom: 24px;
-}
-.section-title span { color: var(--primary); }
-
-/* BENTO CARDS */
-.bento-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 24px; margin-top: 60px;
-}
-.card {
-  background: var(--surface); border: 1px solid var(--border);
-  padding: 40px; border-radius: 24px; transition: 0.4s;
-  backdrop-filter: var(--glass);
-}
-.card:hover { background: var(--surface-hover); border-color: var(--primary); transform: translateY(-5px); }
-
-.icon-box {
-  width: 50px; height: 50px; background: var(--primary-glow);
-  border-radius: 12px; display: flex; align-items: center; justify-content: center;
-  margin-bottom: 24px;
-}
-.icon-box svg { width: 24px; height: 24px; stroke: var(--primary); fill: none; stroke-width: 2; }
+/* SERVICES */
+#servicos{background:var(--white)}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.svc-card{background:var(--card-bg);border:1.5px solid var(--border);border-radius:16px;padding:30px 26px;transition:all .3s;position:relative;overflow:hidden;cursor:default}
+.svc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.svc-card:hover{border-color:rgba(14,111,255,.2);box-shadow:var(--shadow-lg);transform:translateY(-4px)}
+.svc-card:hover::before{transform:scaleX(1)}
+.svc-icon{width:50px;height:50px;border-radius:12px;background:var(--light);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:18px;transition:background .3s}
+.svc-card:hover .svc-icon{background:rgba(14,111,255,.1)}
+.svc-title{font-size:16.5px;font-weight:700;color:var(--primary);margin-bottom:9px}
+.svc-desc{font-size:13.5px;color:var(--muted);line-height:1.7;margin-bottom:18px}
+.svc-tags{display:flex;flex-wrap:wrap;gap:6px}
+.svc-tag{font-size:10.5px;font-weight:600;color:var(--accent);background:rgba(14,111,255,.07);padding:3px 10px;border-radius:20px}
 
 /* ABOUT */
-.about-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: center; }
-.about-vis {
-  position: relative; aspect-ratio: 1;
-  background: radial-gradient(circle at center, var(--primary-glow) 0%, transparent 70%);
-  display: flex; align-items: center; justify-content: center;
-}
-#orbit-canvas { position: absolute; inset: 0; }
+#sobre{background:var(--section-alt)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.about-card-main{background:var(--primary);border-radius:20px;padding:38px;color:#fff;position:relative;overflow:hidden}
+.about-card-main::after{content:'';position:absolute;bottom:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(14,111,255,.15)}
+.acn{font-size:52px;font-weight:800;line-height:1;margin-bottom:6px}
+.acn span{color:var(--accent2)}
+.acl{font-size:13.5px;color:rgba(255,255,255,.5);margin-bottom:22px}
+.about-mini-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;position:relative;z-index:1}
+.about-mini{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.07);border-radius:11px;padding:14px}
+.amv{font-size:21px;font-weight:800;color:#fff}
+.amv span{color:var(--accent2);font-size:15px}
+.aml{font-size:10.5px;color:rgba(255,255,255,.38);margin-top:2px}
+.benefits{display:flex;flex-direction:column;gap:18px;margin-top:36px}
+.benefit{display:flex;gap:14px;align-items:flex-start}
+.bicon{width:42px;height:42px;border-radius:11px;flex-shrink:0;background:rgba(14,111,255,.09);display:flex;align-items:center;justify-content:center;font-size:19px;margin-top:2px}
+.btitle{font-size:14.5px;font-weight:700;color:var(--primary);margin-bottom:3px}
+.bdesc{font-size:13px;color:var(--muted);line-height:1.65}
 
-/* SOLAR SIMULATOR - THE CENTERPIECE */
-.sim-wrap {
-  background: linear-gradient(145deg, #0a0a0a 0%, #000 100%);
-  border: 1px solid var(--border); padding: 60px; border-radius: 40px;
-  box-shadow: 0 40px 100px rgba(0,0,0,0.5);
-}
+/* CALC */
+#solar{background:var(--white)}
+.calc-wrap{background:var(--primary);border-radius:22px;overflow:hidden;display:grid;grid-template-columns:370px 1fr}
+.calc-side{background:rgba(255,255,255,.03);padding:44px 34px;border-right:1px solid rgba(255,255,255,.07)}
+.cst{font-family:'DM Serif Display',serif;font-size:25px;color:#fff;line-height:1.2;margin-bottom:10px}
+.css{font-size:13px;color:rgba(255,255,255,.42);line-height:1.7;margin-bottom:32px}
+.cfl{display:block;font-size:11.5px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:.08em;text-transform:uppercase;margin-bottom:7px}
+.cfi,.cfs{width:100%;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);color:#fff;padding:11px 14px;border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14.5px;outline:none;transition:border-color .2s;appearance:none}
+.cfi:focus,.cfs:focus{border-color:var(--accent);background:rgba(14,111,255,.08)}
+.cfi::placeholder{color:rgba(255,255,255,.22)}
+.cfs option{background:var(--primary);color:#fff}
+.cfg{margin-bottom:18px}
+.cir{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tariff-box{background:rgba(14,111,255,.09);border:1px solid rgba(14,111,255,.2);border-radius:9px;padding:13px 16px;margin-top:8px;font-size:12px;color:rgba(255,255,255,.48);line-height:1.6}
+#tariff-info strong{color:rgba(255,255,255,.78)}
+#subclass-info{font-size:11px;color:rgba(255,255,255,.35);margin-top:5px}
+.btn-calc{width:100%;font-size:14px;font-weight:700;color:var(--primary);background:#fff;border:none;padding:14px;border-radius:9px;cursor:pointer;transition:all .25s;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 16px rgba(0,0,0,.2);font-family:'Plus Jakarta Sans',sans-serif}
+.btn-calc:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(0,0,0,.28)}
+.slider-lbl-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.slider-kwh-v{font-size:18px;font-weight:800;color:#fff;line-height:1}
+.slider-kwh-l{font-size:11px;color:rgba(255,255,255,.32)}
+input[type=range]{width:100%;height:6px;border-radius:3px;outline:none;background:linear-gradient(to right,var(--accent) 0%,var(--accent) var(--pct,14%),rgba(255,255,255,.1) var(--pct,14%));appearance:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{appearance:none;width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--accent);box-shadow:0 2px 8px rgba(0,0,0,.3);cursor:pointer}
+#results{display:none;margin-top:24px;animation:fadeUp .5s ease}
+#results.show{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.rcard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:11px;padding:16px;text-align:center}
+.rv{font-size:21px;font-weight:800;color:#fff}
+.rl{font-size:10px;color:rgba(255,255,255,.32);margin-top:3px}
+.res-savings{background:rgba(0,198,167,.08);border:1px solid rgba(0,198,167,.2);border-radius:13px;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.rsv{font-size:30px;font-weight:800;color:var(--accent2)}
+.rst{font-size:11.5px;font-weight:700;color:rgba(255,255,255,.38);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}
+.rss{font-size:11.5px;color:rgba(255,255,255,.32);margin-top:2px}
+.btn-wpp{display:inline-flex;align-items:center;gap:8px;background:#25d366;color:#fff;font-weight:700;font-size:13.5px;padding:13px 22px;border-radius:9px;text-decoration:none;transition:all .25s;box-shadow:0 4px 14px rgba(37,211,102,.3)}
+.btn-wpp:hover{background:#20bf5a;transform:translateY(-1px)}
 
-.input-group label {
-  font-size: 11px; font-weight: 700; color: var(--muted);
-  text-transform: uppercase; margin-bottom: 10px; display: block;
-}
-.input-group select, .input-group input {
-  width: 100%; background: var(--dark); border: 1px solid var(--border);
-  padding: 16px 20px; border-radius: 12px; color: #fff; font-size: 16px;
-  transition: 0.3s;
-}
-.input-group input:focus { border-color: var(--primary); outline: none; }
+/* CALC MAIN */
+.calc-main{padding:44px 40px}
+.cmt{font-size:12px;font-weight:700;color:rgba(255,255,255,.38);letter-spacing:.1em;text-transform:uppercase;margin-bottom:24px}
+.ctabs{display:flex;gap:3px;background:rgba(255,255,255,.04);border-radius:9px;padding:4px;margin-bottom:24px;flex-wrap:wrap}
+.ctab{flex:1;font-size:11.5px;font-weight:600;color:rgba(255,255,255,.38);background:transparent;border:none;padding:8px 9px;border-radius:6px;cursor:pointer;transition:all .2s;white-space:nowrap;font-family:'Plus Jakarta Sans',sans-serif}
+.ctab.adj-tab-active,.ctab:hover{background:rgba(255,255,255,.09);color:#fff}
+.cpanel{display:none}
+.cost-display{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:15px;padding:26px}
+.cost-top{display:flex;align-items:flex-end;gap:14px;margin-bottom:22px}
+.ctl{font-size:10.5px;font-weight:700;color:rgba(255,255,255,.32);letter-spacing:.1em;text-transform:uppercase}
+.ctv{font-size:40px;font-weight:800;color:#fff;line-height:1;margin-top:4px}
+.ct-solar{background:rgba(0,198,167,.12);border:1px solid rgba(0,198,167,.2);border-radius:9px;padding:9px 14px;text-align:center}
+.csv{font-size:17px;font-weight:800;color:var(--accent2)}
+.csl{font-size:9.5px;color:rgba(255,255,255,.32)}
+.cost-breakdown{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.ci{background:rgba(255,255,255,.03);border-radius:9px;padding:12px}
+.cil{font-size:10px;color:rgba(255,255,255,.32);margin-bottom:3px}
+.civ{font-size:15px;font-weight:700;color:#fff}
+.bar-track{height:6px;background:rgba(255,255,255,.07);border-radius:3px;margin-bottom:6px;overflow:hidden;display:flex}
+.bseg{height:100%;border-radius:3px;transition:width .5s ease}
+.se{background:var(--accent)}.st{background:#f59e0b}.sb{background:#ef4444}
+.bar-leg{font-size:10px;color:rgba(255,255,255,.28)}
+.slider-wrap{margin-bottom:18px;margin-top:18px}
+.presets{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.pbtn{font-size:11.5px;font-weight:600;color:rgba(255,255,255,.45);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);padding:5px 12px;border-radius:20px;cursor:pointer;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif}
+.pbtn:hover{background:rgba(14,111,255,.15);border-color:var(--accent);color:#fff}
+#dias-info{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:12px 16px;margin-top:10px;font-size:12px;color:rgba(255,255,255,.42)}
+.kwh-direto-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.kwh-direto-row .cfl{display:block;margin-bottom:6px}
 
-.adj-tab {
-  background: var(--surface); border: 1px solid var(--border);
-  color: var(--muted); padding: 10px 20px; border-radius: 50px;
-  cursor: pointer; transition: 0.3s; font-size: 13px; font-weight: 600;
-}
-.adj-tab-active { background: var(--primary); color: var(--darker); border-color: var(--primary); }
+/* APARELHOS */
+.apar-grid{display:flex;flex-direction:column;gap:7px;max-height:300px;overflow-y:auto;padding-right:4px}
+.apar-grid::-webkit-scrollbar{width:4px}
+.apar-grid::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:2px}
+.ap-item{display:grid;grid-template-columns:1fr 76px 76px;align-items:center;gap:10px;background:rgba(255,255,255,.03);border-radius:8px;padding:9px 12px}
+.ap-item label{font-size:12.5px;color:rgba(255,255,255,.6)}
+.ap-item input[type=number]{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#fff;text-align:center;padding:6px;border-radius:6px;width:100%;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;-moz-appearance:textfield}
+.ap-item input[type=number]::-webkit-outer-spin-button,.ap-item input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
+.ap-kwh{font-size:11.5px;color:rgba(255,255,255,.38);text-align:right}
+.ap-total{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:rgba(14,111,255,.1);border-radius:9px;margin-top:10px;font-size:13px;font-weight:700;color:#fff}
 
-.calc-btn {
-  width: 100%; background: var(--primary); color: var(--darker);
-  font-weight: 800; padding: 20px; border-radius: 16px;
-  border: none; cursor: pointer; transition: 0.3s; margin-top: 32px;
-  text-transform: uppercase; letter-spacing: 1px;
-}
-.calc-btn:hover { transform: scale(1.02); box-shadow: 0 0 30px var(--primary-glow); }
+/* PERFIL */
+.perf-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.perf-btn{background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);border-radius:10px;padding:14px;cursor:pointer;text-align:center;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif}
+.perf-btn:hover{border-color:var(--accent);background:rgba(14,111,255,.08)}
+.pf-ic{font-size:22px;margin-bottom:5px}
+.pf-nm{font-size:13px;font-weight:700;color:#fff}
+.pf-kw{font-size:11px;color:rgba(255,255,255,.38);margin-top:1px}
 
-.result-card {
-  background: var(--surface); padding: 32px; border-radius: 20px;
-  border: 1px solid var(--border); text-align: center;
-}
-.result-val { font-family: 'Montserrat', sans-serif; font-size: 32px; font-weight: 900; color: var(--primary); }
+/* BANDEIRA */
+.band-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.band-btn{background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif;text-align:left}
+.band-btn:hover{border-color:rgba(255,255,255,.2)}
+.band-btn.active-band{border-color:var(--accent);background:rgba(14,111,255,.1)}
+.bdot{width:11px;height:11px;border-radius:3px;flex-shrink:0}
+.bnm{font-size:13px;font-weight:700;color:#fff}
+.bvl{font-size:10.5px;color:rgba(255,255,255,.38)}
+.band-status{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:12px 16px;margin-top:10px;display:flex;justify-content:space-between;align-items:center;font-size:12.5px}
+.band-status .banm{font-weight:700;color:#fff}
+.band-status .bavl{color:rgba(255,255,255,.38)}
 
-/* PLANS */
-.plans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-.plan-card.featured { border-color: var(--primary); background: rgba(0, 255, 204, 0.03); }
-.plan-badge { background: var(--primary); color: var(--darker); padding: 4px 12px; border-radius: 50px; font-size: 10px; font-weight: 800; }
+/* TESTIMONIALS */
+#depoimentos{background:var(--section-alt)}
+.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.tcard{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:28px 26px;transition:all .3s}
+.tcard:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px)}
+.tst{color:#f59e0b;font-size:13px;margin-bottom:14px;letter-spacing:2px}
+.ttxt{font-size:14px;color:var(--text);line-height:1.76;margin-bottom:22px;font-style:italic}
+.tauth{display:flex;align-items:center;gap:11px}
+.tav{width:40px;height:40px;border-radius:50%;background:var(--light);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.tnm{font-size:14px;font-weight:700;color:var(--primary)}
+.trl{font-size:11.5px;color:var(--muted);margin-top:1px}
+
+/* CTA */
+#contato{background:var(--primary);padding:88px 32px}
+.cta-inner{max-width:680px;margin:0 auto;text-align:center}
+.cta-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,198,167,.12);border:1px solid rgba(0,198,167,.25);color:var(--accent2);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 16px;border-radius:20px;margin-bottom:22px}
+.cta-h2{font-family:'DM Serif Display',serif;font-size:clamp(30px,5vw,50px);font-weight:400;color:#fff;line-height:1.1;margin-bottom:16px}
+.cta-h2 em{font-style:italic;color:#6eb3ff}
+.cta-sub{font-size:15px;color:rgba(255,255,255,.48);margin-bottom:38px;line-height:1.72}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-cta-w{display:inline-flex;align-items:center;gap:9px;background:#fff;color:var(--primary);font-weight:700;font-size:14px;padding:14px 30px;border-radius:9px;text-decoration:none;transition:all .25s;box-shadow:0 4px 20px rgba(0,0,0,.2)}
+.btn-cta-w:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.28)}
+.btn-cta-wpp{display:inline-flex;align-items:center;gap:9px;background:#25d366;color:#fff;font-weight:700;font-size:14px;padding:14px 30px;border-radius:9px;text-decoration:none;transition:all .25s;box-shadow:0 4px 20px rgba(37,211,102,.25)}
+.btn-cta-wpp:hover{background:#20bf5a;transform:translateY(-2px)}
+.cta-trust{display:flex;gap:22px;justify-content:center;margin-top:36px;flex-wrap:wrap}
+.cta-trust span{display:flex;align-items:center;gap:7px;font-size:12.5px;color:rgba(255,255,255,.38)}
 
 /* FOOTER */
-footer { padding: 80px 20px 40px; border-top: 1px solid var(--border); }
-.footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 60px; max-width: 1200px; margin: 0 auto; }
-.footer-logo { height: 40px; margin-bottom: 20px; }
+footer{background:#060f1e;border-top:1px solid rgba(255,255,255,.05);padding:52px 32px 28px}
+.fi{max-width:1200px;margin:0 auto}
+.ft{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:36px;padding-bottom:36px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:28px}
+.fbn{font-size:19px;font-weight:800;color:#fff;letter-spacing:-.3px;margin-bottom:10px}
+.fbn span{color:var(--accent)}
+.fbd{font-size:13px;color:rgba(255,255,255,.32);line-height:1.75;max-width:230px}
+.fct{font-size:11px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px}
+.fcol ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.fcol ul a{font-size:13px;color:rgba(255,255,255,.38);text-decoration:none;transition:color .2s}
+.fcol ul a:hover{color:rgba(255,255,255,.75)}
+.fb{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:rgba(255,255,255,.22);flex-wrap:wrap;gap:10px}
+.fsoc{display:flex;gap:7px}
+.socbtn{width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;font-size:13px;text-decoration:none;transition:all .2s}
+.socbtn:hover{background:rgba(14,111,255,.2);border-color:var(--accent)}
 
-/* MOBILE */
-@media (max-width: 900px) {
-  .nav-links, .nav-cta { display: none; }
-  .bento-grid, .hero-stats, .plans-grid, .footer-grid, .about-grid { grid-template-columns: 1fr; }
-  .sim-wrap { padding: 30px 20px; }
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .svc-grid{grid-template-columns:repeat(2,1fr)}
+  .calc-wrap{grid-template-columns:1fr}
+  .calc-side{border-right:none;border-bottom:1px solid rgba(255,255,255,.07)}
+  .ft{grid-template-columns:1fr 1fr}
 }
-
-.reveal { opacity: 0; transform: translateY(30px); transition: 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
-.reveal.visible { opacity: 1; transform: translateY(0); }
+@media(max-width:768px){
+  nav .nav-links,.btn-outline{display:none}
+  .ham{display:flex}
+  .hero-inner{grid-template-columns:1fr;gap:36px}
+  .hero-visual{display:none}
+  .about-grid{grid-template-columns:1fr;gap:36px}
+  .svc-grid{grid-template-columns:1fr}
+  .test-grid{grid-template-columns:1fr}
+  .ft{grid-template-columns:1fr}
+  .trust-divider{display:none}
+  .cost-breakdown{grid-template-columns:1fr}
+  .res-grid{grid-template-columns:repeat(2,1fr)}
+  .hero-stats{flex-wrap:wrap;gap:18px}
+  section{padding:60px 20px}
+  nav{padding:0 20px}
+  #home{padding:72px 20px 56px}
+  #contato{padding:72px 20px}
+  .topbar-inner{justify-content:center}
+}
+@media(max-width:480px){
+  .ctabs{gap:2px}
+  .ctab{font-size:10px;padding:7px 6px}
+  .hcards{grid-template-columns:1fr}
+  .hcard.s2{grid-column:span 1}
+}
 </style>
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursor-ring"></div>
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="toggleMenu()">✕</button>
+  <a href="#home" onclick="toggleMenu()">Início</a>
+  <a href="#servicos" onclick="toggleMenu()">Serviços</a>
+  <a href="#solar" onclick="toggleMenu()">Calculadora</a>
+  <a href="#sobre" onclick="toggleMenu()">Sobre</a>
+  <a href="#depoimentos" onclick="toggleMenu()">Clientes</a>
+  <a href="https://wa.me/5589981451993" class="mobile-cta">Falar com Especialista</a>
+</div>
 
-<canvas id="bg-canvas"></canvas>
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-items">
+      <span><span class="tdot"></span>Atendimento Seg–Sex 8h–18h</span>
+      <span>📞 (89) 9 8145-1993</span>
+      <span>📍 MATOPIBA</span>
+    </div>
+    <div class="topbar-items">
+      <span>✅ Empresa com CNPJ &amp; Nota Fiscal</span>
+    </div>
+  </div>
+</div>
 
 <!-- NAV -->
-<nav id="navbar">
-  <a href="#home"><img class="nav-logo" src="assets/logo.svg" alt="ETI Logo"></a>
-  <ul class="nav-links">
-    <li><a href="#home">Home</a></li>
-    <li><a href="#quem-somos">Sobre</a></li>
-    <li><a href="#servicos">Serviços</a></li>
-    <li><a href="#solar">Energia Solar</a></li>
-    <li><a href="#protect">Planos</a></li>
-    <li><a href="#contato">Contato</a></li>
-  </ul>
-  <a href="https://wa.me/5589981451993" class="nav-cta">Orçamento</a>
+<nav id="mainNav">
+  <div class="nav-inner">
+    <a href="#home" class="nav-brand">ETI<span>.</span>Technologies</a>
+    <ul class="nav-links">
+      <li><a href="#home">Início</a></li>
+      <li><a href="#servicos">Serviços</a></li>
+      <li><a href="#solar">Calculadora Solar</a></li>
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#depoimentos">Clientes</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="https://wa.me/5589981451993" class="btn-outline">WhatsApp</a>
+      <a href="#contato" class="btn-fill">Falar com Especialista</a>
+      <button class="ham" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
 </nav>
 
 <!-- HERO -->
 <section id="home">
+  <div class="hero-bg">
+    <div class="hero-bg-glow"></div>
+    <div class="hero-bg-grid"></div>
+  </div>
   <div class="hero-inner">
-    <div class="hero-tag">Tecnologia · Segurança · Energia</div>
-    <h1 class="hero-h1">
-      <span>Sua vida</span>
-      <span class="accent">Inteligente & Segura</span>
-    </h1>
-    <p class="hero-sub">Engenharia de ponta em Energia Solar e Segurança Eletrônica. Transformamos inovação em economia e proteção real.</p>
-    <div class="hero-btns">
-      <a href="#solar" class="btn-primary">⚡ Simular Solar</a>
-      <a href="#quem-somos" class="btn-secondary">Nossa História</a>
-    </div>
-    <div class="hero-stats">
-      <div class="stat"><span class="stat-num" data-target="12">0</span><span class="stat-label">Anos de Experiência</span></div>
-      <div class="stat"><span class="stat-num" data-target="95">0</span><span class="stat-label">% Economia Média</span></div>
-      <div class="stat"><span class="stat-num" data-target="500">0</span><span class="stat-label">Projetos Ativos</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- ABOUT -->
-<section id="quem-somos">
-  <div class="section-wrap">
-    <div class="about-grid reveal">
-      <div>
-        <span class="section-tag">Sobre a ETI</span>
-        <h2 class="section-title">Engenharia com <span>DNA Tecnológico</span></h2>
-        <p class="hero-sub" style="text-align:left; margin:0 0 24px">Com mais de uma década de atuação no Tocantins, a ETI Tecnologies é pioneira em integrar soluções de energia e segurança com inteligência digital.</p>
-        <p class="hero-sub" style="text-align:left; margin:0">Não entregamos apenas equipamentos; desenhamos infraestruturas que garantem a continuidade e a eficiência do seu patrimônio.</p>
+    <div>
+      <div class="hero-badge"><span class="hpulse"></span>Soluções Tecnológicas Profissionais</div>
+      <h1 class="hero-h1">
+        Segurança e<br>
+        <em>Tecnologia</em> que<br>
+        <span class="hl">protegem</span> o que<br>você construiu.
+      </h1>
+      <p class="hero-sub">Da câmera de segurança à automação completa — instalamos, configuramos e monitoramos com suporte especializado e garantia de resultados.</p>
+      <div class="hero-btns">
+        <a href="#solar" class="btn-hero-w">☀️ Calcular Economia Solar</a>
+        <a href="https://wa.me/5589981451993" class="btn-hero-g">💬 Falar no WhatsApp</a>
       </div>
-      <div class="about-vis">
-        <canvas id="orbit-canvas"></canvas>
-        <div style="text-align: center; position: relative; z-index: 2;">
-          <span style="font-size: 64px; font-weight: 900; color: #fff;">12+</span>
-          <p style="color: var(--primary); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 12px;">Anos de Mercado</p>
+      <div class="hero-stats">
+        <div><div class="stat-num">500<span>+</span></div><div class="stat-lbl">Projetos entregues</div></div>
+        <div><div class="stat-num">8<span>+</span></div><div class="stat-lbl">Anos de experiência</div></div>
+        <div><div class="stat-num">98<span>%</span></div><div class="stat-lbl">Clientes satisfeitos</div></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hcards">
+        <div class="hcard">
+          <div class="hcard-icon">📷</div>
+          <div class="hcard-title">CFTV &amp; Câmeras</div>
+          <div class="hcard-desc">Monitoramento 24/7 com acesso remoto via app</div>
+        </div>
+        <div class="hcard">
+          <div class="hcard-icon g">⚡</div>
+          <div class="hcard-title">Energia Solar</div>
+          <div class="hcard-desc">Reduza até 95% da sua conta de luz</div>
+        </div>
+        <div class="hcard">
+          <div class="hcard-icon">🔒</div>
+          <div class="hcard-title">Controle de Acesso</div>
+          <div class="hcard-desc">Biometria, cartão e app para gestão total</div>
+        </div>
+        <div class="hcard">
+          <div class="hcard-icon g">🏠</div>
+          <div class="hcard-title">Automação</div>
+          <div class="hcard-desc">Casa e empresa inteligente num toque</div>
+        </div>
+        <div class="hcard s2">
+          <div class="hcard-icon">📡</div>
+          <div>
+            <div class="hcard-title">Redes &amp; TI Gerenciada</div>
+            <div class="hcard-desc">Infraestrutura robusta com suporte contínuo e monitoramento proativo</div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SERVICES -->
-<section id="servicos" style="background: rgba(255,255,255,0.01);">
-  <div class="section-wrap">
-    <span class="section-tag">Expertise</span>
-    <h2 class="section-title">Nossas <span>Soluções</span></h2>
-    <div class="bento-grid reveal">
-      <div class="card">
-        <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-        <h3 style="margin-bottom:12px">Segurança 360°</h3>
-        <p style="color:var(--muted); font-size:14px">Monitoramento inteligente com IA, alarmes de precisão e controle de acesso biométrico.</p>
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-bar-inner">
+    <div class="trust-item">🏅 Instalador Certificado</div>
+    <div class="trust-divider"></div>
+    <div class="trust-item">🛡️ Garantia em Todos os Serviços</div>
+    <div class="trust-divider"></div>
+    <div class="trust-item">🔧 Suporte Técnico Especializado</div>
+    <div class="trust-divider"></div>
+    <div class="trust-item">📋 Nota Fiscal Emitida</div>
+    <div class="trust-divider"></div>
+    <div class="trust-item">⚡ Atendimento Rápido</div>
+  </div>
+</div>
+
+<!-- SERVIÇOS -->
+<section id="servicos">
+  <div class="sw">
+    <div class="sh c">
+      <div class="stag">Nossos Serviços</div>
+      <h2 class="sh2">Soluções completas para<br><em>segurança e tecnologia</em></h2>
+      <p class="ssub">Do projeto à manutenção, atendemos residências, comércios e empresas com tecnologia de ponta e atendimento personalizado.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc-card">
+        <div class="svc-icon">📷</div>
+        <div class="svc-title">CFTV e Câmeras de Segurança</div>
+        <div class="svc-desc">Sistemas completos de vigilância com câmeras HD/4K, DVR/NVR, acesso remoto pelo celular e armazenamento em nuvem.</div>
+        <div class="svc-tags"><span class="svc-tag">Intelbras</span><span class="svc-tag">Hikvision</span><span class="svc-tag">IP / Analógico</span></div>
       </div>
-      <div class="card" style="grid-row: span 2; display: flex; flex-direction: column; justify-content: center; background: linear-gradient(145deg, rgba(0,255,204,0.1), transparent);">
-        <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
-        <h3 style="margin-bottom:16px; font-size:24px">Energia Solar</h3>
-        <p style="color:var(--muted); font-size:16px; margin-bottom:24px">Sistemas fotovoltaicos de alta eficiência para reduzir sua conta em até 95%.</p>
-        <ul style="list-style:none; color:var(--primary); font-size:13px; font-weight:600">
-          <li style="margin-bottom:8px">✔ Payback em 3-4 anos</li>
-          <li style="margin-bottom:8px">✔ Garantia de 25 anos</li>
-          <li>✔ Monitoramento via App</li>
-        </ul>
+      <div class="svc-card">
+        <div class="svc-icon">🚨</div>
+        <div class="svc-title">Alarmes e Monitoramento</div>
+        <div class="svc-desc">Centrais de alarme com sensores perimetrais, monitoramento 24h por central profissional e notificação instantânea.</div>
+        <div class="svc-tags"><span class="svc-tag">Residencial</span><span class="svc-tag">Comercial</span><span class="svc-tag">Monitorado</span></div>
       </div>
-      <div class="card">
-        <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/></svg></div>
-        <h3 style="margin-bottom:12px">Redes & Fibra</h3>
-        <p style="color:var(--muted); font-size:14px">Infraestrutura de TI, Wi-Fi 6 e cabeamento estruturado para máxima performance corporativa.</p>
+      <div class="svc-card">
+        <div class="svc-icon">🔑</div>
+        <div class="svc-title">Controle de Acesso</div>
+        <div class="svc-desc">Portaria eletrônica, biometria, leitores de cartão RFID, interfones e controle por aplicativo para total rastreabilidade.</div>
+        <div class="svc-tags"><span class="svc-tag">Biometria</span><span class="svc-tag">RFID</span><span class="svc-tag">Facial</span></div>
       </div>
-      <div class="card">
-        <div class="icon-box"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/></svg></div>
-        <h3 style="margin-bottom:12px">Gestão de TI</h3>
-        <p style="color:var(--muted); font-size:14px">Suporte especializado e terceirização de TI para focar no que realmente importa: seu negócio.</p>
+      <div class="svc-card">
+        <div class="svc-icon">☀️</div>
+        <div class="svc-title">Energia Solar Fotovoltaica</div>
+        <div class="svc-desc">Projetos de geração solar on-grid com dimensionamento técnico, instalação certificada e acompanhamento pós-venda.</div>
+        <div class="svc-tags"><span class="svc-tag">On-Grid</span><span class="svc-tag">Economia 95%</span><span class="svc-tag">Homologado</span></div>
       </div>
-      <div class="card">
-        <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/></svg></div>
-        <h3 style="margin-bottom:12px">Automação</h3>
-        <p style="color:var(--muted); font-size:14px">Integração de sistemas residenciais e corporativos para maior conforto e controle total.</p>
+      <div class="svc-card">
+        <div class="svc-icon">🏠</div>
+        <div class="svc-title">Automação Residencial e Predial</div>
+        <div class="svc-desc">Controle inteligente de iluminação, ar-condicionado, cortinas, fechaduras e mais — tudo integrado ao seu smartphone.</div>
+        <div class="svc-tags"><span class="svc-tag">Smart Home</span><span class="svc-tag">Alexa / Google</span><span class="svc-tag">App</span></div>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">🌐</div>
+        <div class="svc-title">Redes e TI Gerenciada</div>
+        <div class="svc-desc">Infraestrutura cabeada e Wi-Fi, firewalls, servidores, gestão de usuários, suporte remoto e manutenção preventiva.</div>
+        <div class="svc-tags"><span class="svc-tag">MikroTik</span><span class="svc-tag">Ubiquiti</span><span class="svc-tag">Suporte 24/7</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SIMULATOR -->
+<!-- CALCULADORA SOLAR -->
 <section id="solar">
-  <div class="section-wrap">
-    <div class="sim-wrap reveal">
-      <div style="text-align: center; margin-bottom: 48px;">
-        <span class="section-tag">Calculadora Solar</span>
-        <h2 class="section-title">Simule sua <span>Independência</span></h2>
-      </div>
-
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px;">
-        <div class="input-group">
-          <label>Seu Estado</label>
-          <select id="state-select"></select>
+  <div class="sw">
+    <div class="sh">
+      <div class="stag">Simulador Gratuito</div>
+      <h2 class="sh2">Quanto você pode <em>economizar</em><br>com energia solar?</h2>
+      <p class="ssub">Digite o valor da sua conta e descubra em segundos o potencial de economia do seu projeto.</p>
+    </div>
+    <div class="calc-wrap">
+      <!-- SIDEBAR -->
+      <div class="calc-side">
+        <div class="cst">Calcule sua<br>Economia Solar</div>
+        <div class="css">Preencha os dados da sua conta de energia e receba uma estimativa completa do seu sistema fotovoltaico.</div>
+        <div class="cfg">
+          <label class="cfl" for="state-sel">Estado (UF)</label>
+          <select class="cfs" id="state-sel">
+            <option value="">Selecione...</option>
+            <option value="AC">Acre</option><option value="AL">Alagoas</option><option value="AP">Amapá</option>
+            <option value="AM">Amazonas</option><option value="BA">Bahia</option><option value="CE">Ceará</option>
+            <option value="DF">Distrito Federal</option><option value="ES">Espírito Santo</option><option value="GO">Goiás</option>
+            <option value="MA">Maranhão</option><option value="MT">Mato Grosso</option><option value="MS">Mato Grosso do Sul</option>
+            <option value="MG">Minas Gerais</option><option value="PA">Pará</option><option value="PB">Paraíba</option>
+            <option value="PR">Paraná</option><option value="PE">Pernambuco</option><option value="PI">Piauí</option>
+            <option value="RJ">Rio de Janeiro</option><option value="RN">Rio Grande do Norte</option><option value="RS">Rio Grande do Sul</option>
+            <option value="RO">Rondônia</option><option value="RR">Roraima</option><option value="SC">Santa Catarina</option>
+            <option value="SP">São Paulo</option><option value="SE">Sergipe</option><option value="TO" selected>Tocantins</option>
+          </select>
         </div>
-        <div class="input-group">
-          <label>Gasto Mensal (R$)</label>
-          <input id="bill-input" type="number" placeholder="Ex: 500">
+        <div class="tariff-box">
+          <div id="tariff-info">Selecione seu estado para ver a tarifa vigente.</div>
+          <div id="subclass-info"></div>
         </div>
-      </div>
-
-      <div style="display:flex; gap:12px; margin-bottom:32px; justify-content:center">
-        <button class="adj-tab adj-tab-active" data-tab="slider">Ajuste Manual</button>
-        <button class="adj-tab" data-tab="perfil">Perfil de Uso</button>
-      </div>
-
-      <div id="panel-slider" class="adj-panel">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
-          <span style="color: var(--muted); font-weight: 600;">Consumo Estimado</span>
-          <span id="slider-kwh-label" style="color: var(--primary); font-weight: 800; font-size: 20px;">0 kWh</span>
-        </div>
-        <input type="range" id="kwh-slider" min="50" max="2000" step="10" style="width: 100%;">
-      </div>
-
-      <div id="panel-perfil" class="adj-panel" style="display:none">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px;">
-          <button class="adj-tab perfil-btn" data-perfil-kwh="300">Residencial</button>
-          <button class="adj-tab perfil-btn" data-perfil-kwh="600">Premium</button>
-          <button class="adj-tab perfil-btn" data-perfil-kwh="1200">Comercial</button>
-        </div>
-      </div>
-
-      <button class="calc-btn" id="calculate-btn">Gerar Análise Gratuita</button>
-
-      <div id="results" style="display:none; margin-top: 48px; border-top: 1px solid var(--border); padding-top: 48px;">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
-          <div class="result-card">
-            <span style="font-size: 11px; color: var(--muted); text-transform: uppercase;">Economia Anual</span>
-            <div class="result-val" id="res-savings">R$ 0</div>
-          </div>
-          <div class="result-card">
-            <span style="font-size: 11px; color: var(--muted); text-transform: uppercase;">Potência Estimada</span>
-            <div class="result-val" id="res-watts">0W</div>
+        <div class="cfg" style="margin-top:18px">
+          <label class="cfl">Valor da Conta (R$) &amp; Dias</label>
+          <div class="cir">
+            <input class="cfi" type="number" id="bill-input" placeholder="Ex: 350,00" min="1" step="0.01">
+            <input class="cfi" type="number" id="dias-input" placeholder="Dias" min="25" max="35" value="30">
           </div>
         </div>
-        <div style="text-align: center; margin-top: 40px;">
-          <a id="whatsapp-link" href="#" target="_blank" class="nav-cta" style="padding: 16px 48px; font-size: 15px;">Falar com Engenheiro no WhatsApp</a>
+        <div id="slider-block" style="display:none;margin-bottom:14px">
+          <div class="slider-lbl-row">
+            <div>
+              <div class="slider-kwh-v" id="slider-kwh-label">300 kWh</div>
+              <div class="slider-kwh-l">Consumo estimado</div>
+            </div>
+          </div>
+          <input type="range" id="kwh-slider" min="50" max="2000" value="300" style="--pct:14%">
+        </div>
+        <button class="btn-calc" id="calculate-btn">⚡ Calcular Economia</button>
+        <div id="results">
+          <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.35);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;margin-top:4px">Sistema Recomendado</div>
+          <div class="res-grid">
+            <div class="rcard"><div class="rv" id="res-panels">—</div><div class="rl">Painéis 550W</div></div>
+            <div class="rcard"><div class="rv" id="res-watts">—</div><div class="rl">Potência total</div></div>
+            <div class="rcard"><div class="rv" id="res-inverter">—</div><div class="rl">Inversor</div></div>
+            <div class="rcard"><div class="rv" id="res-kwh">—</div><div class="rl">kWh/mês</div></div>
+            <div class="rcard"><div class="rv" id="res-area">—</div><div class="rl">m² telhado</div></div>
+            <div class="rcard"><div class="rv" id="res-25anos" style="font-size:14px">—</div><div class="rl">Economia 25 anos</div></div>
+          </div>
+          <div class="res-savings">
+            <div>
+              <div class="rst">Economia Anual Estimada</div>
+              <div class="rsv" id="res-savings">—</div>
+              <div class="rss">Projeção pela tarifa atual</div>
+            </div>
+            <a href="#" id="whatsapp-link" class="btn-wpp" target="_blank">💬 Orçamento</a>
+          </div>
+        </div>
+      </div>
+      <!-- MAIN -->
+      <div class="calc-main">
+        <div class="cmt">Analisador de Consumo Energético</div>
+        <div class="ctabs">
+          <button class="ctab adj-tab-active" id="tab-slider" onclick="setTab('slider')">Slider</button>
+          <button class="ctab" id="tab-kwh" onclick="setTab('kwh')">kWh direto</button>
+          <button class="ctab" id="tab-aparelhos" onclick="setTab('aparelhos')">Aparelhos</button>
+          <button class="ctab" id="tab-perfil" onclick="setTab('perfil')">Perfil</button>
+          <button class="ctab" id="tab-bandeira" onclick="setTab('bandeira')">Bandeira</button>
+        </div>
+        <!-- Slider panel -->
+        <div id="panel-slider" class="cpanel" style="display:block">
+          <div class="cost-display">
+            <div class="cost-top">
+              <div>
+                <div class="ctl">Custo Total Mensal</div>
+                <div class="ctv" id="ct-total">R$ —</div>
+              </div>
+              <div class="ct-solar">
+                <div class="csv" id="ct-solar">—</div>
+                <div class="csl">Com solar ☀️</div>
+              </div>
+            </div>
+            <div class="cost-breakdown">
+              <div class="ci"><div class="cil">Energia</div><div class="civ" id="ct-energia">—</div></div>
+              <div class="ci"><div class="cil">Tributos</div><div class="civ" id="ct-tributos">—</div></div>
+              <div class="ci"><div class="cil">Bandeira</div><div class="civ" id="ct-bandeira">—</div></div>
+            </div>
+            <div class="bar-track">
+              <div class="bseg se" id="bar-energia" style="width:60%"></div>
+              <div class="bseg st" id="bar-tributos" style="width:30%"></div>
+              <div class="bseg sb" id="bar-bandeira" style="width:10%"></div>
+            </div>
+            <div class="bar-leg" id="bar-pct">Energia · Tributos · Bandeira</div>
+          </div>
+          <div class="slider-wrap">
+            <div class="slider-lbl-row">
+              <div>
+                <div class="slider-kwh-v"><span id="ct-kwh">300</span> kWh/mês</div>
+                <div class="slider-kwh-l">Arraste para ajustar</div>
+              </div>
+            </div>
+            <input type="range" id="kwh-slider-main" min="50" max="2000" value="300" style="--pct:14%" oninput="syncMain(this.value)">
+            <div class="presets">
+              <button class="pbtn" onclick="setKwh(100)">100 kWh</button>
+              <button class="pbtn" onclick="setKwh(200)">200 kWh</button>
+              <button class="pbtn" onclick="setKwh(300)">300 kWh</button>
+              <button class="pbtn" onclick="setKwh(500)">500 kWh</button>
+              <button class="pbtn" onclick="setKwh(800)">800 kWh</button>
+              <button class="pbtn" onclick="setKwh(1200)">1.2 MWh</button>
+            </div>
+          </div>
+          <div id="dias-info" style="display:none">
+            Consumo diário: <strong id="dias-kwh-dia">—</strong> kWh/dia &nbsp;·&nbsp; Custo/dia: <strong id="dias-custo-dia">—</strong>
+          </div>
+        </div>
+        <!-- kWh direto -->
+        <div id="panel-kwh" class="cpanel">
+          <div class="kwh-direto-row">
+            <div><label class="cfl">kWh / mês</label><input type="number" class="cfi" id="kwh-direto" placeholder="Ex: 300" min="1"></div>
+            <div><label class="cfl">kWh / dia</label><input type="number" class="cfi" id="kwh-dia-direto" placeholder="Ex: 10" min="0.1" step="0.1"></div>
+          </div>
+        </div>
+        <!-- Aparelhos -->
+        <div id="panel-aparelhos" class="cpanel">
+          <div id="aparelhos-grid" class="apar-grid"></div>
+          <div class="ap-total"><span>Total estimado:</span><span id="ap-total-kwh" style="color:var(--accent2)">0 kWh/mês</span></div>
+        </div>
+        <!-- Perfil -->
+        <div id="panel-perfil" class="cpanel">
+          <div class="perf-grid">
+            <button class="perf-btn" onclick="applyKwh(100)"><div class="pf-ic">🧑</div><div class="pf-nm">Solteiro</div><div class="pf-kw">~100 kWh/mês</div></button>
+            <button class="perf-btn" onclick="applyKwh(200)"><div class="pf-ic">👫</div><div class="pf-nm">Casal</div><div class="pf-kw">~200 kWh/mês</div></button>
+            <button class="perf-btn" onclick="applyKwh(350)"><div class="pf-ic">👨‍👩‍👦</div><div class="pf-nm">Família Pequena</div><div class="pf-kw">~350 kWh/mês</div></button>
+            <button class="perf-btn" onclick="applyKwh(550)"><div class="pf-ic">👨‍👩‍👧‍👦</div><div class="pf-nm">Família Grande</div><div class="pf-kw">~550 kWh/mês</div></button>
+            <button class="perf-btn" onclick="applyKwh(800)"><div class="pf-ic">🏪</div><div class="pf-nm">Pequeno Comércio</div><div class="pf-kw">~800 kWh/mês</div></button>
+            <button class="perf-btn" onclick="applyKwh(2000)"><div class="pf-ic">🏢</div><div class="pf-nm">Empresa</div><div class="pf-kw">~2.000 kWh/mês</div></button>
+          </div>
+        </div>
+        <!-- Bandeira -->
+        <div id="panel-bandeira" class="cpanel">
+          <div class="band-grid">
+            <button class="band-btn active-band" id="band-verde" onclick="setBandeira('verde',0,'Verde')">
+              <span class="bdot" style="background:#22c55e"></span><div><div class="bnm">🟢 Verde</div><div class="bvl">R$ 0,00/kWh</div></div>
+            </button>
+            <button class="band-btn" id="band-amarela" onclick="setBandeira('amarela',0.02346,'Amarela')">
+              <span class="bdot" style="background:#eab308"></span><div><div class="bnm">🟡 Amarela</div><div class="bvl">R$ 0,02346/kWh</div></div>
+            </button>
+            <button class="band-btn" id="band-vermelha1" onclick="setBandeira('vermelha1',0.04463,'Vermelha P1')">
+              <span class="bdot" style="background:#ef4444"></span><div><div class="bnm">🔴 Vermelha P1</div><div class="bvl">R$ 0,04463/kWh</div></div>
+            </button>
+            <button class="band-btn" id="band-vermelha2" onclick="setBandeira('vermelha2',0.07877,'Vermelha P2')">
+              <span class="bdot" style="background:#991b1b"></span><div><div class="bnm">🔴 Vermelha P2</div><div class="bvl">R$ 0,07877/kWh</div></div>
+            </button>
+          </div>
+          <div class="band-status">
+            <span class="banm">Bandeira ativa: <span id="band-nome-ativo">Verde</span></span>
+            <span class="bavl" id="band-valor-ativo">R$ 0,00 (sem acréscimo)</span>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PLANS -->
-<section id="protect">
-  <div class="section-wrap">
-    <span class="section-tag">Manutenção</span>
-    <h2 class="section-title">Planos <span>ETI Protect</span></h2>
-    <div class="plans-grid reveal">
-      <div class="card">
-        <h3 style="margin-bottom:16px">Basic</h3>
-        <div style="font-size: 32px; font-weight: 900; margin-bottom: 24px;">R$ 39<span style="font-size:16px; color:var(--muted)">,90/mês</span></div>
-        <ul style="list-style:none; color:var(--muted); font-size:14px; margin-bottom:32px">
-          <li style="margin-bottom:12px">✔ Suporte Remoto</li>
-          <li>✔ Check-up Anual</li>
-        </ul>
-        <a href="https://wa.me/5589981451993" class="btn-secondary" style="display:block; text-align:center">Contratar</a>
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="sw">
+    <div class="about-grid">
+      <div class="about-visual">
+        <div class="about-card-main">
+          <div class="acn">500<span>+</span></div>
+          <div class="acl">Projetos entregues com sucesso</div>
+          <div class="about-mini-cards">
+            <div class="about-mini"><div class="amv">8<span>+</span></div><div class="aml">Anos de mercado</div></div>
+            <div class="about-mini"><div class="amv">98<span>%</span></div><div class="aml">Satisfação dos clientes</div></div>
+            <div class="about-mini"><div class="amv">6</div><div class="aml">Serviços disponíveis</div></div>
+            <div class="about-mini"><div class="amv">24<span>h</span></div><div class="aml">Suporte disponível</div></div>
+          </div>
+        </div>
       </div>
-      <div class="card featured">
-        <span class="plan-badge">Mais Escolhido</span>
-        <h3 style="margin-bottom:16px; margin-top:12px">Business Pro</h3>
-        <div style="font-size: 32px; font-weight: 900; margin-bottom: 24px;">R$ 349<span style="font-size:16px; color:var(--muted)">,90/mês</span></div>
-        <ul style="list-style:none; color:var(--muted); font-size:14px; margin-bottom:32px">
-          <li style="margin-bottom:12px">✔ Suporte Prioritário</li>
-          <li style="margin-bottom:12px">✔ 2 Visitas Técnicas</li>
-          <li>✔ Gestão de CFTV</li>
-        </ul>
-        <a href="https://wa.me/5589981451993" class="btn-primary" style="display:block; text-align:center">Contratar</a>
+      <div>
+        <div class="stag">Por que a ETI?</div>
+        <h2 class="sh2">Tecnologia com responsabilidade e <em>comprometimento</em></h2>
+        <p style="font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:28px">A ETI Technologies nasceu com o propósito de democratizar o acesso à tecnologia de segurança e automação no interior do Brasil, oferecendo soluções de alto padrão com atendimento próximo e humano.</p>
+        <div class="benefits">
+          <div class="benefit">
+            <div class="bicon">🎯</div>
+            <div><div class="btitle">Projeto sob medida</div><div class="bdesc">Cada cliente recebe um projeto customizado após visita técnica gratuita, sem soluções genéricas.</div></div>
+          </div>
+          <div class="benefit">
+            <div class="bicon">🔧</div>
+            <div><div class="btitle">Suporte pós-instalação</div><div class="bdesc">Não abandonamos o cliente após a entrega. Oferecemos suporte contínuo e manutenção preventiva.</div></div>
+          </div>
+          <div class="benefit">
+            <div class="bicon">📄</div>
+            <div><div class="btitle">Total transparência</div><div class="bdesc">Orçamento detalhado, nota fiscal, garantia documentada e sem custos ocultos em nenhuma etapa.</div></div>
+          </div>
+          <div class="benefit">
+            <div class="bicon">⚡</div>
+            <div><div class="btitle">Tecnologia atual</div><div class="bdesc">Trabalhamos apenas com equipamentos das melhores marcas e nos atualizamos constantemente.</div></div>
+          </div>
+        </div>
       </div>
-      <div class="card">
-        <h3 style="margin-bottom:16px">Enterprise</h3>
-        <div style="font-size: 32px; font-weight: 900; margin-bottom: 24px;">R$ 799<span style="font-size:16px; color:var(--muted)">,90/mês</span></div>
-        <ul style="list-style:none; color:var(--muted); font-size:14px; margin-bottom:32px">
-          <li style="margin-bottom:12px">✔ Suporte 24/7</li>
-          <li style="margin-bottom:12px">✔ Gestão Total de TI</li>
-          <li>✔ Visitas Ilimitadas</li>
-        </ul>
-        <a href="https://wa.me/5589981451993" class="btn-secondary" style="display:block; text-align:center">Contratar</a>
+    </div>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section id="depoimentos">
+  <div class="sw">
+    <div class="sh c">
+      <div class="stag">Depoimentos</div>
+      <h2 class="sh2">O que nossos clientes <em>dizem</em></h2>
+      <p class="ssub">A confiança dos nossos clientes é o nosso maior patrimônio.</p>
+    </div>
+    <div class="test-grid">
+      <div class="tcard">
+        <div class="tst">★★★★★</div>
+        <p class="ttxt">"Instalaram o sistema de câmeras no meu comércio e a diferença foi imediata. Monitoramento perfeito pelo celular, imagem nítida e o suporte é excelente. Recomendo de olhos fechados."</p>
+        <div class="tauth"><div class="tav">👨‍💼</div><div><div class="tnm">Carlos Eduardo</div><div class="trl">Proprietário de Mercado · Palmas/TO</div></div></div>
       </div>
+      <div class="tcard">
+        <div class="tst">★★★★★</div>
+        <p class="ttxt">"O projeto solar foi além das expectativas. Minha conta caiu de R$ 480 para menos de R$ 40. A equipe da ETI foi super profissional em todo o processo, do orçamento à homologação."</p>
+        <div class="tauth"><div class="tav">👩</div><div><div class="tnm">Fernanda Alves</div><div class="trl">Empreendedora · Paraíso do Tocantins/TO</div></div></div>
+      </div>
+      <div class="tcard">
+        <div class="tst">★★★★★</div>
+        <p class="ttxt">"Terceirizamos toda a nossa TI para a ETI. Rede estruturada, suporte remoto, gestão de servidores — resolvem tudo com rapidez. Antes perdíamos horas com problemas, hoje simplesmente funciona."</p>
+        <div class="tauth"><div class="tav">🏢</div><div><div class="tnm">Ricardo Sousa</div><div class="trl">Gerente de TI · Gurupi/TO</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="contato">
+  <div class="cta-inner">
+    <div class="cta-badge">✉️ Fale Conosco Agora</div>
+    <h2 class="cta-h2">Pronto para proteger o<br>que é <em>seu</em>?</h2>
+    <p class="cta-sub">Solicite uma visita técnica gratuita sem compromisso. Nossa equipe avalia sua necessidade e apresenta a melhor solução.</p>
+    <div class="cta-btns">
+      <a href="https://wa.me/5589981451993?text=Olá! Gostaria de solicitar uma visita técnica gratuita." class="btn-cta-wpp" target="_blank">💬 WhatsApp</a>
+      <a href="tel:+5589981451993" class="btn-cta-w">📞 Ligar Agora</a>
+    </div>
+    <div class="cta-trust">
+      <span>✅ Visita técnica gratuita</span>
+      <span>✅ Orçamento sem compromisso</span>
+      <span>✅ Resposta em até 2h</span>
     </div>
   </div>
 </section>
 
 <!-- FOOTER -->
-<footer id="contato">
-  <div class="footer-grid">
-    <div>
-      <img class="footer-logo" src="assets/logo.svg" alt="ETI Logo">
-      <p style="color: var(--muted); font-size: 14px; line-height: 1.6;">Engenharia, tecnologia e segurança integrada. Liderando a transformação digital no Tocantins há mais de 12 anos.</p>
+<footer>
+  <div class="fi">
+    <div class="ft">
+      <div>
+        <div class="fbn">ETI<span>.</span>Technologies</div>
+        <p class="fbd">Soluções profissionais em segurança eletrônica, energia solar e tecnologia para residências e empresas no Tocantins.</p>
+      </div>
+      <div class="fcol">
+        <div class="fct">Serviços</div>
+        <ul>
+          <li><a href="#servicos">CFTV e Câmeras</a></li>
+          <li><a href="#servicos">Alarmes</a></li>
+          <li><a href="#servicos">Controle de Acesso</a></li>
+          <li><a href="#servicos">Energia Solar</a></li>
+          <li><a href="#servicos">Automação</a></li>
+          <li><a href="#servicos">Redes e TI</a></li>
+        </ul>
+      </div>
+      <div class="fcol">
+        <div class="fct">Empresa</div>
+        <ul>
+          <li><a href="#sobre">Sobre Nós</a></li>
+          <li><a href="#depoimentos">Clientes</a></li>
+          <li><a href="#solar">Calculadora Solar</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </div>
+      <div class="fcol">
+        <div class="fct">Contato</div>
+        <ul>
+          <li><a href="tel:+5589981451993">(89) 9 8145-1993</a></li>
+          <li><a href="https://wa.me/5589981451993">WhatsApp</a></li>
+          <li><a href="#">MATOPIBA</a></li>
+        </ul>
+      </div>
     </div>
-    <div>
-      <h4 style="font-size: 14px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px;">Contato</h4>
-      <p style="color: var(--muted); font-size: 14px; margin-bottom: 8px;">(89) 98145-1993</p>
-      <p style="color: var(--muted); font-size: 14px;">contato@etitecnologies.com.br</p>
-    </div>
-    <div>
-      <h4 style="font-size: 14px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px;">Siga-nos</h4>
-      <div style="display: flex; gap: 16px;">
-        <a href="#" style="color: var(--primary); font-weight: 700; text-decoration: none;">Instagram</a>
-        <a href="#" style="color: var(--primary); font-weight: 700; text-decoration: none;">LinkedIn</a>
+    <div class="fb">
+      <span>© <span id="footer-year"></span> ETI Technologies. Todos os direitos reservados.</span>
+      <div class="fsoc">
+        <a href="#" class="socbtn">📘</a>
+        <a href="#" class="socbtn">📸</a>
+        <a href="https://wa.me/5589981451993" class="socbtn">💬</a>
       </div>
     </div>
   </div>
-  <div style="text-align: center; margin-top: 60px; padding-top: 32px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted);">
-    © <span id="footer-year"></span> ETI TECNOLOGIES. TODOS OS DIREITOS RESERVADOS.
-  </div>
 </footer>
 
-<script src="main.js" defer></script>
+<script>
+window.addEventListener('scroll',()=>document.getElementById('mainNav').classList.toggle('elevated',window.scrollY>20));
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open')}
+
+const STATES={
+  AC:{name:'Acre',rate:.7012},AL:{name:'Alagoas',rate:.8234},AP:{name:'Amapá',rate:.6543},
+  AM:{name:'Amazonas',rate:.7321},BA:{name:'Bahia',rate:.7765},CE:{name:'Ceará',rate:.789},
+  DF:{name:'Distrito Federal',rate:.7234},ES:{name:'Espírito Santo',rate:.7012},
+  GO:{name:'Goiás',rate:.7456},MA:{name:'Maranhão',rate:.8012},MT:{name:'Mato Grosso',rate:.7234},
+  MS:{name:'Mato Grosso do Sul',rate:.7123},MG:{name:'Minas Gerais',rate:.7654},
+  PA:{name:'Pará',rate:.7234},PB:{name:'Paraíba',rate:.8012},PR:{name:'Paraná',rate:.7345},
+  PE:{name:'Pernambuco',rate:.7987},PI:{name:'Piauí',rate:.8234},RJ:{name:'Rio de Janeiro',rate:.8765},
+  RN:{name:'Rio Grande do Norte',rate:.8012},RS:{name:'Rio Grande do Sul',rate:.7345},
+  RO:{name:'Rondônia',rate:.7012},RR:{name:'Roraima',rate:.6543},SC:{name:'Santa Catarina',rate:.7456},
+  SP:{name:'São Paulo',rate:.7123},SE:{name:'Sergipe',rate:.8123},TO:{name:'Tocantins',rate:.7567}
+};
+
+let activeBandeira={nome:'Verde',valor:0};
+const sel=document.getElementById('state-sel');
+function getState(){const v=sel.value;return v&&STATES[v]?STATES[v]:null}
+function updateTariffBox(){
+  const s=getState();
+  const box=document.getElementById('tariff-info');
+  if(s)box.innerHTML=`<strong>${s.name}</strong> — Tarifa: <strong>R$ ${s.rate.toFixed(4)}/kWh</strong>`;
+  else box.textContent='Selecione seu estado para ver a tarifa vigente.';
+}
+function getDias(){const v=parseInt(document.getElementById('dias-input').value);return(!v||v<1)?30:v}
+function fmt(v){return'R$ '+v.toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.')}
+function calcCost(kwh){
+  const s=getState()||{rate:.75};const dias=getDias();
+  const energia=kwh*s.rate;const tributos=energia*.32;const bandeira=kwh*activeBandeira.valor;
+  const total=energia+tributos+bandeira;const comSolar=total*.05;const custoDia=total/dias;
+  return{kwh,kwhDia:kwh/dias,energia,tributos,bandeira,total,comSolar,custoDia};
+}
+function updateDiasInfo(c){
+  const box=document.getElementById('dias-info');
+  if(!c||!c.kwhDia){box.style.display='none';return}
+  box.style.display='block';
+  document.getElementById('dias-kwh-dia').textContent=c.kwhDia.toFixed(1);
+  document.getElementById('dias-custo-dia').textContent=fmt(c.custoDia);
+}
+document.getElementById('subclass-info').textContent='🏠 Tarifa padrão residencial (B1) — tarifa única por kWh conforme ANEEL.';
+let currentKwh=300;
+function applyKwh(kwh){
+  currentKwh=Math.max(50,Math.min(9999,kwh));
+  const pct=((Math.min(currentKwh,2000)-50)/(2000-50))*100;
+  ['kwh-slider','kwh-slider-main'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){el.value=Math.min(currentKwh,2000);el.style.setProperty('--pct',pct+'%')}
+  });
+  updateCostDisplay();
+}
+function syncMain(val){applyKwh(parseInt(val))}
+function updateCostDisplay(){
+  const dias=getDias();
+  document.getElementById('slider-kwh-label').textContent=`${currentKwh} kWh / ${dias} dias`;
+  document.getElementById('ct-kwh').textContent=currentKwh;
+  const c=calcCost(currentKwh);
+  document.getElementById('ct-energia').textContent=fmt(c.energia);
+  document.getElementById('ct-tributos').textContent=fmt(c.tributos);
+  document.getElementById('ct-bandeira').textContent=fmt(c.bandeira);
+  document.getElementById('ct-total').textContent=fmt(c.total);
+  document.getElementById('ct-solar').textContent=fmt(c.comSolar);
+  updateDiasInfo(c);
+  const bE=(c.energia/c.total*100).toFixed(1);
+  const bT=(c.tributos/c.total*100).toFixed(1);
+  const bB=(c.bandeira/c.total*100).toFixed(1);
+  document.getElementById('bar-energia').style.width=bE+'%';
+  document.getElementById('bar-tributos').style.width=bT+'%';
+  document.getElementById('bar-bandeira').style.width=bB+'%';
+  document.getElementById('bar-pct').textContent=`Energia ${bE}% · Tributos ${bT}% · Bandeira ${bB}%`;
+}
+function setTab(name){
+  ['slider','kwh','aparelhos','perfil','bandeira'].forEach(t=>{
+    document.getElementById('panel-'+t).style.display=t===name?'block':'none';
+    document.getElementById('tab-'+t).classList.toggle('adj-tab-active',t===name);
+  });
+}
+document.getElementById('kwh-slider').addEventListener('input',function(){applyKwh(parseInt(this.value))});
+document.getElementById('kwh-direto').addEventListener('input',function(){
+  const v=parseFloat(this.value);
+  if(v>0){document.getElementById('kwh-dia-direto').value=(v/30).toFixed(1);applyKwh(Math.round(v))}
+});
+document.getElementById('kwh-dia-direto').addEventListener('input',function(){
+  const v=parseFloat(this.value);
+  if(v>0){const mes=Math.round(v*30);document.getElementById('kwh-direto').value=mes;applyKwh(mes)}
+});
+function setKwh(kwh){applyKwh(kwh)}
+function setBandeira(id,valor,nome){
+  activeBandeira={nome,valor};
+  document.querySelectorAll('.band-btn').forEach(b=>b.classList.remove('active-band'));
+  document.getElementById('band-'+id).classList.add('active-band');
+  document.getElementById('band-nome-ativo').textContent=nome;
+  document.getElementById('band-valor-ativo').textContent=valor===0?'R$ 0,00 (sem acréscimo)':`R$ ${valor.toFixed(5)}/kWh`;
+  updateCostDisplay();
+}
+const APARELHOS=[
+  {nome:'💡 Lâmpada LED 9W',watts:9,horas:6},{nome:'💡 Lâmpada LED 15W',watts:15,horas:6},
+  {nome:'❄️ Ar-cond. 9.000 BTU',watts:900,horas:8},{nome:'❄️ Ar-cond. 12.000 BTU',watts:1100,horas:8},
+  {nome:'❄️ Ar-cond. 18.000 BTU',watts:1700,horas:8},{nome:'🖥️ TV 40"',watts:70,horas:6},
+  {nome:'🖥️ Computador',watts:200,horas:8},{nome:'🧊 Geladeira Frost Free',watts:130,horas:24},
+  {nome:'🧊 Freezer',watts:180,horas:24},{nome:'👕 Máquina de Lavar',watts:1500,horas:1},
+  {nome:'👕 Secadora de Roupa',watts:2500,horas:1},{nome:'♨️ Chuveiro Elétrico',watts:5500,horas:.5},
+  {nome:'🍳 Forno Elétrico',watts:2000,horas:1},{nome:'🫙 Micro-ondas',watts:1200,horas:.5},
+  {nome:"💧 Bomba d'água 1/2cv",watts:370,horas:4},{nome:"💧 Bomba d'água 1cv",watts:736,horas:4},
+  {nome:'🔌 Ferro de Passar',watts:1200,horas:1},{nome:'📶 Roteador Wi-Fi',watts:10,horas:24},
+];
+const agrid=document.getElementById('aparelhos-grid');
+APARELHOS.forEach((ap,i)=>{
+  const div=document.createElement('div');div.className='ap-item';
+  div.innerHTML=`<label>${ap.nome}<br><span style="font-size:10.5px;color:rgba(255,255,255,.3)">${ap.watts}W · ${ap.horas}h/dia</span></label><input type="number" id="ap-${i}" value="0" min="0" max="99" onchange="calcApar()"><span class="ap-kwh" id="ap-kwh-${i}">0 kWh</span>`;
+  agrid.appendChild(div);
+});
+function calcApar(){
+  let total=0;
+  APARELHOS.forEach((ap,i)=>{
+    const qty=parseInt(document.getElementById('ap-'+i).value)||0;
+    const kwh=qty*ap.watts*ap.horas*30/1000;
+    document.getElementById('ap-kwh-'+i).textContent=kwh.toFixed(1)+' kWh';
+    total+=kwh;
+  });
+  document.getElementById('ap-total-kwh').textContent=Math.round(total)+' kWh/mês';
+  if(total>0)applyKwh(Math.round(total));
+}
+function syncBill(){
+  const bill=parseFloat(document.getElementById('bill-input').value);
+  const s=getState();const dias=getDias();
+  if(bill>0&&s){
+    const kwh30=Math.round((bill/s.rate)*(30/dias));
+    document.getElementById('slider-block').style.display='block';
+    applyKwh(kwh30);
+  }
+}
+document.getElementById('bill-input').addEventListener('input',syncBill);
+document.getElementById('dias-input').addEventListener('input',syncBill);
+sel.addEventListener('change',()=>{updateTariffBox();syncBill()});
+document.getElementById('calculate-btn').addEventListener('click',()=>{
+  const s=getState();if(!s){alert('Selecione seu estado.');return}
+  const bill=parseFloat(document.getElementById('bill-input').value);
+  const dias=getDias();
+  if(!bill||bill<=0){alert('Insira um valor válido para a conta.');return}
+  document.getElementById('slider-block').style.display='block';
+  syncBill();
+  const kwh=currentKwh;
+  const kwp=kwh/(5*30*.8);const panels=Math.ceil((kwp*1000)/550);
+  const watts=panels*550;const inv=(watts/1000)*.9;
+  const savings=kwh*s.rate*1.085*12;const area=panels*2.6;const savings25=savings*25*1.07;
+  document.getElementById('res-panels').textContent=panels;
+  document.getElementById('res-watts').textContent=watts+'W';
+  document.getElementById('res-inverter').textContent=inv.toFixed(1)+'kW';
+  document.getElementById('res-savings').textContent='R$ '+savings.toLocaleString('pt-br',{minimumFractionDigits:0});
+  document.getElementById('res-kwh').textContent=kwh;
+  document.getElementById('res-area').textContent=Math.round(area);
+  document.getElementById('res-25anos').textContent=fmt(savings25);
+  const msg=encodeURIComponent(`Olá! Simulei no site ETI.\nEstado: ${s.name}\nConta: R$ ${bill} (${dias} dias)\nConsumo: ${kwh} kWh/mês\nBandeira: ${activeBandeira.nome}\nSistema: ${watts}W com ${panels} módulos\nQuero um orçamento!`);
+  document.getElementById('whatsapp-link').href=`https://wa.me/5589981451993?text=${msg}`;
+  const r=document.getElementById('results');
+  r.classList.remove('show');void r.offsetWidth;r.style.display='block';r.classList.add('show');
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth',block:'nearest'}),100);
+});
+document.getElementById('footer-year').textContent=new Date().getFullYear();
+updateTariffBox();updateCostDisplay();
+</script>
 </body>
 </html>
